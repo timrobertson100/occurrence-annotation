@@ -8,7 +8,7 @@ curl -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-
   -d '{"name":"LegumeData.org", "creator":"tim", "description":"Annotations from the Legumedata.org group"}'
 
 curl -X POST http://localhost:8080/v1/occurrence/annotation/rule -H "Content-Type: application/json" \
-  -d '{"Comment":"Terrestrial records in the sea", "creator":"tim", "geometry":"[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]", "contextType":"TAXON", "contextKey":"2435099","project": {"id":1}, "errorType":"LOCATION"}'
+  -d '{"comment":"Terrestrial records in the sea", "creator":"tim", "geometry":"[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]", "contextType":"TAXON", "contextKey":"2435099","project": {"id":1}, "errorType":"LOCATION"}'
 ```
 
 And then visit http://localhost:8080/v1/occurrence/annotation/rule to receive: 
@@ -21,7 +21,7 @@ And then visit http://localhost:8080/v1/occurrence/annotation/rule to receive:
       "contextKey":"2435099",
       "geometry":"[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]",
       "enrichmentType":null,
-      "comment":null,
+      "comment":"Terrestrial records in the sea",
       "project":{
          "id":1,
          "name":"LegumeData.org",
