@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gbif.occurrence.annotation.mapper.RuleMapper">
+    <select id="list" resultType="Rule">
+        SELECT * FROM rule
+    </select>
+
+    <select id="get" parameterType="int" resultType="Rule">
+        SELECT * FROM rule WHERE id = #{id}
+    </select>
+
+
+    <insert id="create" parameterType="Rule" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO rule (context_type, context_key, geometry, error_type, enrichment_type, project_id, creator, created)
+        VALUES (#{contextType,jdbcType=VARCHAR}, #{contextKey,jdbcType=VARCHAR}, #{geometry,jdbcType=VARCHAR}, #{errorType,jdbcType=VARCHAR}, #{enrichmentType,jdbcType=VARCHAR}, #{projectId}, #{creator,jdbcType=VARCHAR}, now())
+    </insert>
+</mapper>
