@@ -1,17 +1,18 @@
 package org.gbif.occurrence.annotation.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.Date;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class Project {
+public class Comment {
+
   private Integer id;
-  private String name;
-  private String description;
+  private String comment;
+  private Long ruleId;
   private String creator;
   private Date created;
 }
