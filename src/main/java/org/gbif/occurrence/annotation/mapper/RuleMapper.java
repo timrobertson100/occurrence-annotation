@@ -1,11 +1,8 @@
 package org.gbif.occurrence.annotation.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.gbif.occurrence.annotation.model.Project;
-import org.gbif.occurrence.annotation.model.Rule;
 import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.gbif.occurrence.annotation.model.Rule;
 
 @Mapper
 public interface RuleMapper {
@@ -20,7 +17,10 @@ public interface RuleMapper {
   void deleteByProject(int projectId, String username);
 
   void addSupport(int id, String username);
+
   void removeSupport(int id, String username);
+
   void addContest(int id, String username);
+
   void removeContest(int id, String username);
 }

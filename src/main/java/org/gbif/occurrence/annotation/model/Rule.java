@@ -1,14 +1,10 @@
 package org.gbif.occurrence.annotation.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,17 +13,23 @@ public class Rule {
 
   // The type of "view" the user had when making the annotation
   public enum CONTEXT {
-    TAXON, DATASET
+    TAXON,
+    DATASET
   }
 
   // The type of error the user is reporting
   public enum ERROR_TYPE {
-    IDENTIFICATION, LOCATION, OTHER
+    IDENTIFICATION,
+    LOCATION,
+    OTHER
   }
 
   // Basic forms of enrichment annotation that may be applied
   public enum ENRICHMENT_TYPE {
-    INTRODUCED, NATIVE, VAGRANT, CAPTIVITY
+    INTRODUCED,
+    NATIVE,
+    VAGRANT,
+    CAPTIVITY
   }
 
   private Integer id;

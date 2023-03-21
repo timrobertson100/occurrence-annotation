@@ -1,6 +1,8 @@
 package org.gbif.occurrence.annotation.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
+import javax.validation.Valid;
 import org.gbif.occurrence.annotation.mapper.ProjectMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Project;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/occurrence/annotation/project")

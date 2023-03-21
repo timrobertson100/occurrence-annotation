@@ -1,6 +1,8 @@
 package org.gbif.occurrence.annotation.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
+import javax.validation.Valid;
 import org.gbif.occurrence.annotation.mapper.CommentMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Comment;
@@ -13,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/occurrence/annotation/rule")
@@ -27,11 +27,13 @@ public class RuleController {
   public List<Rule> list() {
     return ruleMapper.list();
   }
+
   @Operation(summary = "Get a single rule (may be deleted)")
   @GetMapping("/{id}")
   public Rule get(@PathVariable(value = "id") int id) {
     return ruleMapper.get(id);
   }
+
   @Operation(summary = "Create a new rule")
   @PostMapping
   public Rule create(@Valid @RequestBody Rule rule) {
@@ -39,6 +41,7 @@ public class RuleController {
     ruleMapper.create(rule); // id set by mybatis
     return ruleMapper.get(rule.getId());
   }
+
   @Operation(summary = "Logical delete a rule")
   @DeleteMapping("/{id}")
   public Rule delete(@PathVariable(value = "id") int id) {
@@ -86,9 +89,11 @@ public class RuleController {
   public List<Comment> listComment(@PathVariable(value = "id") int ruleId) {
     return commentMapper.list(ruleId);
   }
+
   @Operation(summary = "Adds a comment")
   @PostMapping("/{id}/comment")
-  public Comment addComment(@PathVariable(value = "id") int id, @Valid @RequestBody Comment comment) {
+  public Comment addComment(
+      @PathVariable(value = "id") int id, @Valid @RequestBody Comment comment) {
     String username = "TODO:Auth";
     comment.setCreatedBy(username);
     comment.setRuleId(id);

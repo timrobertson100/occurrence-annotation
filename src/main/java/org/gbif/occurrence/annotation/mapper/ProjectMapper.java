@@ -1,8 +1,8 @@
 package org.gbif.occurrence.annotation.mapper;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.gbif.occurrence.annotation.model.Project;
-import java.util.List;
 
 @Mapper
 public interface ProjectMapper {
@@ -13,5 +13,6 @@ public interface ProjectMapper {
   void create(Project rule);
 
   void update(Project rule);
+
   void delete(int id, String username);
 }
