@@ -14,4 +14,13 @@ public interface RuleMapper {
   Rule get(int id);
 
   void create(Rule rule);
+
+  void delete(int id, String username);
+
+  void deleteByProject(int projectId, String username);
+
+  void addSupport(int id, String username);
+  void removeSupport(int id, String username);
+  void addContest(int id, String username);
+  void removeContest(int id, String username);
 }

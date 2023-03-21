@@ -3,6 +3,7 @@ package org.gbif.occurrence.annotation.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -10,8 +11,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class Project {
   private Integer id;
-  private String name;
-  private String description;
-  private String creator;
+  @NotNull private String name;
+  @NotNull private String description;
+  private String[] members;
   private Date created;
+  private String createdBy;
+  private Date modified;
+  private String modifiedBy;
+  private Date deleted;
+  private String deletedBy;
 }

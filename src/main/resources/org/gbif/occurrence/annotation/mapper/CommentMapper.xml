@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gbif.occurrence.annotation.mapper.CommentMapper">
+    <select id="list" parameterType="int" resultType="Comment">
+        SELECT * FROM comment WHERE rule_id = #{ruleId} AND deleted IS NULL ORDER BY created DESC
+    </select>
+
+    <select id="get" parameterType="int" resultType="Comment">
+        SELECT * FROM comment WHERE id = #{id}
+    </select>
+
+    <insert id="create" parameterType="Comment" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO comment (rule_id, comment, created_by, created)
+        VALUES (#{ruleId}, #{comment}, #{createdBy}, now())
+    </insert>
+
+    <update id="delete" parameterType="map">
+        UPDATE comment SET deleted = now(), deleted_by = #{username} WHERE id = #{id} AND DELETED IS NULL
+    </update>
+</mapper>

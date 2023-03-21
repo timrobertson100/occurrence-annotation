@@ -1,18 +1,20 @@
 package org.gbif.occurrence.annotation.model;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
-
-  private Integer id;
-  private String comment;
-  private Long ruleId;
-  private String creator;
+  private int id;
+  private int ruleId;
+  @NotNull private String comment;
   private Date created;
+  private String createdBy;
+  private Date deleted;
+  private String deletedBy;
 }
