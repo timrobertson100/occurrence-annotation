@@ -47,7 +47,7 @@ public class RuleController {
   @Operation(summary = "Create a new rule")
   @PostMapping
   public Rule create(@Valid @RequestBody Rule rule) {
-    rule.setCreatedBy("TODO:Auth");
+    rule.setCreatedBy("TODO:Auth2");
     ruleMapper.create(rule); // id set by mybatis
     return ruleMapper.get(rule.getId());
   }
@@ -116,5 +116,19 @@ public class RuleController {
   public void deleteComment(@PathVariable(value = "commentId") int commentId) {
     String username = "TODO:Auth";
     commentMapper.delete(commentId, username);
+  }
+
+  @Operation(
+      summary =
+          "Provide basic metrics summarised by username, optionally filtered by contextType, contextKey and projectId")
+  @Parameter(name = "contextType", description = "Filters by context type")
+  @Parameter(name = "contextKey", description = "Filters by context key")
+  @Parameter(name = "projectId", description = "Filters by the given project")
+  @GetMapping("/metrics")
+  public List<Rule> metrics(
+      @RequestParam(required = false) String contextType,
+      @RequestParam(required = false) String contextKey,
+      @RequestParam(required = false) Integer projectId) {
+    return ruleMapper.metrics(contextType, contextKey, projectId);
   }
 }

@@ -54,4 +54,26 @@
     <update id="removeContest" parameterType="map">
         UPDATE rule SET contested_by = ARRAY_REMOVE(contested_by, #{username}) WHERE id = #{id}
     </update>
+
+    <select id="metrics" parameterType="map" resultType="RuleMetrics">
+        SELECT
+          created_by AS username,
+          count(*) AS ruleCount,
+          count(DISTINCT context_key) as contextCount,
+          SUM(ARRAY_LENGTH(supported_by,1)) AS supportCount,
+          SUM(ARRAY_LENGTH(contested_by,1)) AS contestCount
+        FROM rule
+        WHERE deleted IS NULL
+        <if test="contextType != null" >
+            AND context_type = #{contextType}
+        </if>
+        <if test="contextKey != null" >
+            AND context_key = #{contextKey}
+        </if>
+        <if test="projectId != null" >
+            AND project_id = #{projectId}
+        </if>
+        GROUP BY created_by
+        ORDER BY ruleCount DESC
+    </select>
 </mapper>

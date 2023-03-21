@@ -23,4 +23,6 @@ public interface RuleMapper {
   void addContest(int id, String username);
 
   void removeContest(int id, String username);
+
+  List<Rule> metrics(String contextType, String contextKey, Integer projectId);
 }
