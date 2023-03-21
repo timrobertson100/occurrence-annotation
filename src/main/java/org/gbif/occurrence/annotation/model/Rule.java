@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,12 +31,16 @@ public class Rule {
   }
 
   private Integer id;
-  private CONTEXT contextType;
-  private String contextKey;
-  private String geometry;
+  @NotNull private CONTEXT contextType;
+  @NotNull private String contextKey;
+  @NotNull private String geometry;
   private ERROR_TYPE errorType;
   private ENRICHMENT_TYPE enrichmentType;
   private Integer projectId;
-  private String creator;
+  private String[] supportedBy;
+  private String[] contestedBy;
   private Date created;
+  private String createdBy;
+  private Date deleted;
+  private String deletedBy;
 }

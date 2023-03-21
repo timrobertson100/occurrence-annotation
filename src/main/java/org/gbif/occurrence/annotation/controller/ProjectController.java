@@ -1,10 +1,10 @@
 package org.gbif.occurrence.annotation.controller;
 
-import org.gbif.occurrence.annotation.exception.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
 import org.gbif.occurrence.annotation.mapper.ProjectMapper;
+import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,59 +15,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/occurrence/annotation/project")
 public class ProjectController {
   @Autowired private ProjectMapper projectMapper;
+  @Autowired private RuleMapper ruleMapper;
 
+  @Operation(summary = "List all projects that are not deleted")
   @GetMapping
   public List<Project> list() {
     return projectMapper.list();
   }
 
+  @Operation(summary = "Get a single project (may be deleted)")
   @GetMapping("/{id}")
-  public Project get(@PathVariable(value = "id") Long projectId) {
-    return projectMapper.get(projectId);
+  public Project get(@PathVariable(value = "id") int id) {
+    return projectMapper.get(id);
   }
 
+  @Operation(summary = "Create a new project")
   @PostMapping
   public Project create(@Valid @RequestBody Project project) {
-    //return projectRepository.save(project);
-    throw new RuntimeException("Not implemented");
+    project.setCreatedBy("TODO:Auth");
+    project.setMembers(new String[] {"TODO:Auth"});
+    projectMapper.create(project); // mybatis sets id
+    return projectMapper.get(project.getId());
   }
 
+  @Operation(summary = "Update a project")
   @PutMapping("/{id}")
-  public ResponseEntity<Project> updateProject(@PathVariable(value = "id") Long projectId,
-                                                 @Valid @RequestBody Project projectDetails) throws ResourceNotFoundException {
-    /*
-    Project project = projectRepository.findById(projectId)
-        .orElseThrow(() -> new ResourceNotFoundException("Project not found for this id :: " + projectId));
-
-    project.setName(projectDetails.getName());
-    project.setDescription(projectDetails.getDescription());
-    // creator and created are not updatable
-
-    final Project updatedProject = projectRepository.save(project);
-    return ResponseEntity.ok(updatedProject);
-
-     */
-    throw new RuntimeException("Not implemented");
+  public Project update(@PathVariable(value = "id") int id, @Valid @RequestBody Project project) {
+    project.setModifiedBy("TODO:Auth");
+    project.setId(id); // defensive
+    projectMapper.update(project);
+    return projectMapper.get(id);
   }
 
+  @Operation(summary = "Logical delete a project and all associated rules")
   @DeleteMapping("/{id}")
-  public Map<String, Boolean> deleteProject(@PathVariable(value = "id") Long projectId)
-      throws ResourceNotFoundException {
-    /*
-    Project project = projectRepository.findById(projectId)
-        .orElseThrow(() -> new ResourceNotFoundException("Project not found for this id :: " + projectId));
-
-    projectRepository.delete(project);
-    Map<String, Boolean> response = new HashMap<>();
-    response.put("deleted", Boolean.TRUE);
-    return response;
-    */
-    throw new RuntimeException("Not implemented");
+  public void delete(@PathVariable(value = "id") int id) {
+    String username = "TODO:Auth";
+    projectMapper.delete(id, username);
+    ruleMapper.deleteByProject(id, username);
   }
 }
