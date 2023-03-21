@@ -1,6 +1,7 @@
 package org.gbif.occurrence.annotation.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.List;
 import javax.validation.Valid;
 import org.gbif.occurrence.annotation.mapper.CommentMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,10 +24,18 @@ public class RuleController {
   @Autowired private RuleMapper ruleMapper;
   @Autowired private CommentMapper commentMapper;
 
-  @Operation(summary = "List all rules that are not deleted")
+  @Operation(
+      summary =
+          "List all rules that are not deleted, optionally filtered by contextType, contextKey and projectId")
+  @Parameter(name = "contextType", description = "Filters by context type")
+  @Parameter(name = "contextKey", description = "Filters by context key")
+  @Parameter(name = "projectId", description = "Filters by the given project")
   @GetMapping
-  public List<Rule> list() {
-    return ruleMapper.list();
+  public List<Rule> list(
+      @RequestParam(required = false) String contextType,
+      @RequestParam(required = false) String contextKey,
+      @RequestParam(required = false) Integer projectId) {
+    return ruleMapper.list(contextType, contextKey, projectId);
   }
 
   @Operation(summary = "Get a single rule (may be deleted)")

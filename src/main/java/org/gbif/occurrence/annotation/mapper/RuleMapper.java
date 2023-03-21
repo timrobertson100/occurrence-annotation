@@ -6,7 +6,7 @@ import org.gbif.occurrence.annotation.model.Rule;
 
 @Mapper
 public interface RuleMapper {
-  List<Rule> list();
+  List<Rule> list(String contextType, String contextKey, Integer projectId);
 
   Rule get(int id);
 
