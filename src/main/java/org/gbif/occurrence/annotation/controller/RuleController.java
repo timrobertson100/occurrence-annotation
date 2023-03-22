@@ -62,7 +62,7 @@ public class RuleController {
 
   @Operation(summary = "Adds support for a rule (removes any existing contest entry for the user)")
   @PostMapping("/{id}/support")
-  public Rule addSupport(@PathVariable(value = "id") int id) {
+  public Rule support(@PathVariable(value = "id") int id) {
     String username = "TODO:Auth";
     ruleMapper.addSupport(id, username);
     ruleMapper.removeContest(id, username); // contest and support are mutually exclusive
