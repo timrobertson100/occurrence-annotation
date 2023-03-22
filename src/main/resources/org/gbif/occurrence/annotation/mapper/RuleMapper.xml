@@ -38,21 +38,21 @@
     </update>
 
     <update id="addSupport" parameterType="map">
-        UPDATE rule SET supported_by = ARRAY_APPEND(supported_by, #{username})
+        UPDATE rule SET supported_by = ARRAY_APPEND(supported_by, #{username}::TEXT)
         WHERE id = #{id} AND NOT #{username} = ANY(supported_by)
     </update>
 
     <update id="removeSupport" parameterType="map">
-        UPDATE rule SET supported_by = ARRAY_REMOVE(supported_by, #{username}) WHERE id = #{id}
+        UPDATE rule SET supported_by = ARRAY_REMOVE(supported_by, #{username}::TEXT) WHERE id = #{id}
     </update>
 
     <update id="addContest" parameterType="map">
-        UPDATE rule SET contested_by = ARRAY_APPEND(contested_by, #{username})
+        UPDATE rule SET contested_by = ARRAY_APPEND(contested_by, #{username}::TEXT)
         WHERE id = #{id} AND NOT #{username} = ANY(contested_by)
     </update>
 
     <update id="removeContest" parameterType="map">
-        UPDATE rule SET contested_by = ARRAY_REMOVE(contested_by, #{username}) WHERE id = #{id}
+        UPDATE rule SET contested_by = ARRAY_REMOVE(contested_by, #{username}::TEXT) WHERE id = #{id}
     </update>
 
     <select id="metrics" parameterType="map" resultType="RuleMetrics">
