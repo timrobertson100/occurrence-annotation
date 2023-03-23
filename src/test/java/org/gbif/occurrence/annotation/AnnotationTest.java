@@ -228,6 +228,7 @@ class AnnotationTest {
   static class ContextInitializer
       implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
+    @Override
     @SneakyThrows
     public void initialize(ConfigurableApplicationContext context) {
       TestPropertyValues.of(
