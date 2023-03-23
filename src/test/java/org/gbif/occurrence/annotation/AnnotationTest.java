@@ -1,20 +1,31 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.occurrence.annotation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.sql.DataSource;
-import lombok.SneakyThrows;
-import org.apache.commons.lang3.ArrayUtils;
 import org.gbif.occurrence.annotation.controller.ProjectController;
 import org.gbif.occurrence.annotation.controller.RuleController;
 import org.gbif.occurrence.annotation.model.Comment;
 import org.gbif.occurrence.annotation.model.Project;
 import org.gbif.occurrence.annotation.model.Rule;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +37,15 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import lombok.SneakyThrows;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Runs tests against the controllers bypassing HTTP. This requires Docker to be running for the
@@ -44,6 +62,9 @@ class AnnotationTest {
   @Autowired private DataSource dataSource;
 
   @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
   void testProjects() {
     assertTrue("Projects should be empty", projectController.list().isEmpty());
     projectController.create(
@@ -57,6 +78,9 @@ class AnnotationTest {
   }
 
   @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
   void testRuleLifecycle() {
     Project p1 = projectController.create(Project.builder().name("1").description("1").build());
     Project p2 = projectController.create(Project.builder().name("2").description("2").build());
@@ -120,6 +144,9 @@ class AnnotationTest {
   }
 
   @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
   void testRuleSupportContest() {
     Rule r =
         ruleController.create(
@@ -141,6 +168,9 @@ class AnnotationTest {
   }
 
   @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
   void testComments() {
     Rule r =
         ruleController.create(

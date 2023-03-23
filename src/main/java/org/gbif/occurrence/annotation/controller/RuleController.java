@@ -1,14 +1,29 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.gbif.occurrence.annotation.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import java.util.List;
-import javax.validation.Valid;
 import org.gbif.occurrence.annotation.mapper.CommentMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Comment;
 import org.gbif.occurrence.annotation.model.Rule;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +34,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/v1/occurrence/annotation/rule")
-public class RuleController {
+public class RuleController implements Controller<Rule> {
   @Autowired private RuleMapper ruleMapper;
   @Autowired private CommentMapper commentMapper;
 
@@ -42,30 +60,35 @@ public class RuleController {
 
   @Operation(summary = "Get a single rule (may be deleted)")
   @GetMapping("/{id}")
+  @Override
   public Rule get(@PathVariable(value = "id") int id) {
     return ruleMapper.get(id);
   }
 
   @Operation(summary = "Create a new rule")
   @PostMapping
+  @Secured("USER")
+  @Override
   public Rule create(@Valid @RequestBody Rule rule) {
-    rule.setCreatedBy("TODO:Auth2");
+    rule.setCreatedBy(getLoggedInUser());
     ruleMapper.create(rule); // id set by mybatis
     return ruleMapper.get(rule.getId());
   }
 
   @Operation(summary = "Logical delete a rule")
   @DeleteMapping("/{id}")
+  @Secured("USER")
+  @Override
   public Rule delete(@PathVariable(value = "id") int id) {
-    String username = "TODO:Auth";
-    ruleMapper.delete(id, username);
+    ruleMapper.delete(id, getLoggedInUser());
     return ruleMapper.get(id);
   }
 
   @Operation(summary = "Adds support for a rule (removes any existing contest entry for the user)")
   @PostMapping("/{id}/support")
+  @Secured("USER")
   public Rule support(@PathVariable(value = "id") int id) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     ruleMapper.addSupport(id, username);
     ruleMapper.removeContest(id, username); // contest and support are mutually exclusive
     return ruleMapper.get(id);
@@ -73,16 +96,18 @@ public class RuleController {
 
   @Operation(summary = "Removes support for a rule for the user")
   @PostMapping("/{id}/removeSupport")
+  @Secured("USER")
   public Rule removeSupport(@PathVariable(value = "id") int id) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     ruleMapper.removeSupport(id, username);
     return ruleMapper.get(id);
   }
 
   @Operation(summary = "Record that the user contests a rule (removes any support from the user)")
   @PostMapping("/{id}/contest")
+  @Secured("USER")
   public Rule contest(@PathVariable(value = "id") int id) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     ruleMapper.addContest(id, username);
     ruleMapper.removeSupport(id, username); // contest and support are mutually exclusive
     return ruleMapper.get(id);
@@ -90,8 +115,9 @@ public class RuleController {
 
   @Operation(summary = "Removes the user contest list for the rule")
   @PostMapping("/{id}/removeContest")
+  @Secured("USER")
   public Rule removeContest(@PathVariable(value = "id") int id) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     ruleMapper.removeContest(id, username);
     return ruleMapper.get(id);
   }
@@ -104,9 +130,10 @@ public class RuleController {
 
   @Operation(summary = "Adds a comment")
   @PostMapping("/{id}/comment")
+  @Secured("USER")
   public Comment addComment(
       @PathVariable(value = "id") int id, @Valid @RequestBody Comment comment) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     comment.setCreatedBy(username);
     comment.setRuleId(id);
     commentMapper.create(comment); // id set by mybatis
@@ -115,8 +142,9 @@ public class RuleController {
 
   @Operation(summary = "Logical delete a comment")
   @DeleteMapping("/{id}/comment/{commentId}")
+  @Secured("USER")
   public void deleteComment(@PathVariable(value = "commentId") int commentId) {
-    String username = "TODO:Auth";
+    String username = getLoggedInUser();
     commentMapper.delete(commentId, username);
   }
 

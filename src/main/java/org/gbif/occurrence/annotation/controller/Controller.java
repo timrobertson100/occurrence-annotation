@@ -11,22 +11,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.gbif.occurrence.annotation.mapper;
+package org.gbif.occurrence.annotation.controller;
 
-import org.gbif.occurrence.annotation.model.Comment;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.List;
+interface Controller<T> {
+  T get(int id);
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+  @Secured("USER")
+  T create(T object);
 
-@Mapper
-public interface CommentMapper {
-  List<Comment> list(@Param("ruleId") int ruleId);
+  @Secured("USER")
+  T delete(int id);
 
-  Comment get(@Param("id") int id);
-
-  void create(Comment comment);
-
-  void delete(@Param("id") int id, @Param("username") String username);
+  default String getLoggedInUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    return authentication.getName();
+  }
 }

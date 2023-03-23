@@ -17,16 +17,16 @@ The gist of this project:
 Run the application in IDEA and then:
 
 ```
-curl -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" \
+curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" \
   -d '{"name":"LegumeData.org", "description":"Annotations from the Legumedata.org group"}'
 
-curl -X POST http://localhost:8080/v1/occurrence/annotation/rule -H "Content-Type: application/json" \
+curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule -H "Content-Type: application/json" \
   -d '{"contextType":"TAXON", "contextKey":"2435099", "geometry":"[ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]", "projectId": 1, "errorType":"LOCATION"}'
   
-curl -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/comment -H "Content-Type: application/json" \
+curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/comment -H "Content-Type: application/json" \
   -d '{"comment":"Terrestrial species in the sea"}'
   
-curl -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/support 
+curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/support 
 ```
 
 The API is documented on http://localhost:8080/swagger-ui/index.html 
