@@ -90,7 +90,7 @@ class AnnotationTest {
             .contextType(Rule.CONTEXT.TAXON)
             .contextKey("1")
             .geometry("geom1")
-            .errorType(Rule.ERROR_TYPE.IDENTIFICATION)
+            .annotation(Rule.ANNOTATION_TYPE.NATIVE)
             .build());
 
     ruleController.create(
@@ -99,7 +99,7 @@ class AnnotationTest {
             .contextKey("2")
             .geometry("geom2")
             .projectId(p1.getId())
-            .errorType(Rule.ERROR_TYPE.IDENTIFICATION)
+            .annotation(Rule.ANNOTATION_TYPE.NATIVE)
             .build());
 
     ruleController.create(
@@ -108,7 +108,7 @@ class AnnotationTest {
             .contextKey("1")
             .geometry("geom3")
             .projectId(p1.getId())
-            .enrichmentType(Rule.ENRICHMENT_TYPE.INTRODUCED)
+            .annotation(Rule.ANNOTATION_TYPE.VAGRANT)
             .build());
 
     Rule deleteRule =
@@ -117,7 +117,7 @@ class AnnotationTest {
                 .contextType(Rule.CONTEXT.TAXON)
                 .contextKey("1")
                 .geometry("geom4")
-                .enrichmentType(Rule.ENRICHMENT_TYPE.INTRODUCED)
+                .annotation(Rule.ANNOTATION_TYPE.INTRODUCED)
                 .build());
     ruleController.delete(deleteRule.getId());
 
@@ -128,19 +128,61 @@ class AnnotationTest {
     assertNotNull(
         "A deleted rule should have a deleted timestamp", ruleController.get(deleteRule.getId()));
     assertEquals(
-        "3 active rules were just created", 3, ruleController.list(null, null, null).size());
+        "3 active rules were just created", 3, ruleController.list(null, null, null, null).size());
     assertEquals(
         "2 non-deleted rules were about taxon 1",
         2,
-        ruleController.list("TAXON", "1", null).size());
+        ruleController.list("TAXON", "1", null, null).size());
     assertEquals(
         "2 non-deleted rules are in project 1",
         2,
-        ruleController.list(null, null, p1.getId()).size());
+        ruleController.list(null, null, p1.getId(), null).size());
     assertEquals(
         "0 non-deleted rules are in project 2",
         0,
-        ruleController.list(null, null, p2.getId()).size());
+        ruleController.list(null, null, p2.getId(), null).size());
+  }
+
+  @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
+  void testFindByComment() {
+    Rule r1 =
+        ruleController.create(
+            Rule.builder()
+                .contextType(Rule.CONTEXT.TAXON)
+                .contextKey("1")
+                .geometry("geom1")
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
+                .build());
+
+    Rule r2 =
+        ruleController.create(
+            Rule.builder()
+                .contextType(Rule.CONTEXT.TAXON)
+                .contextKey("1")
+                .geometry("geom1")
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
+                .build());
+
+    ruleController.addComment(
+        r1.getId(), Comment.builder().comment("They do though don't they though").build());
+    ruleController.addComment(r1.getId(), Comment.builder().comment("I divvina, pet").build());
+    ruleController.addComment(
+        r2.getId(), Comment.builder().comment("Are ye gannin yem already?").build());
+    ruleController.addComment(r1.getId(), Comment.builder().comment("Am gannin doon toon").build());
+    Comment c1 =
+        ruleController.addComment(r1.getId(), Comment.builder().comment("Delete me").build());
+    ruleController.deleteComment(c1.getId());
+
+    assertEquals(
+        "Gannin should match 2 rules", 2, ruleController.list(null, null, null, "gannin").size());
+    assertEquals(
+        "Deleted comments should be skipped",
+        0,
+        ruleController.list(null, null, null, "delete").size());
+    assertEquals("Pet is only on one rule", 1, ruleController.list(null, null, null, "pet").size());
   }
 
   @Test
@@ -154,7 +196,7 @@ class AnnotationTest {
                 .contextType(Rule.CONTEXT.TAXON)
                 .contextKey("1")
                 .geometry("geom1")
-                .errorType(Rule.ERROR_TYPE.IDENTIFICATION)
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
 
     ruleController.addComment(r.getId(), Comment.builder().comment("comment 1").build());
@@ -178,7 +220,7 @@ class AnnotationTest {
                 .contextType(Rule.CONTEXT.TAXON)
                 .contextKey("1")
                 .geometry("geom1")
-                .errorType(Rule.ERROR_TYPE.IDENTIFICATION)
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
 
     // TODO Auth here

@@ -17,6 +17,11 @@
         <if test="projectId != null" >
             AND project_id = #{projectId}
         </if>
+        <if test="comment != null" >
+            AND id IN (
+              SELECT DISTINCT rule_id FROM comment WHERE deleted IS NULL AND comment LIKE '%' || #{comment} || '%'
+            )
+        </if>
         ORDER BY created DESC
     </select>
 
@@ -25,8 +30,8 @@
     </select>
 
     <insert id="create" parameterType="Rule" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO rule (context_type, context_key, geometry, error_type, enrichment_type, project_id, created_by, created)
-        VALUES (#{contextType}, #{contextKey}, #{geometry}, #{errorType}, #{enrichmentType}, #{projectId}, #{createdBy}, now())
+        INSERT INTO rule (context_type, context_key, geometry, annotation, project_id, created_by, created)
+        VALUES (#{contextType}, #{contextKey}, #{geometry}, #{annotation}, #{projectId}, #{createdBy}, now())
     </insert>
 
     <update id="delete" parameterType="map">

@@ -46,16 +46,20 @@ public class RuleController implements Controller<Rule> {
 
   @Operation(
       summary =
-          "List all rules that are not deleted, optionally filtered by contextType, contextKey and projectId")
+          "List all rules that are not deleted, optionally filtered by contextType, contextKey, projectId and containing the comment text")
   @Parameter(name = "contextType", description = "Filters by context type")
   @Parameter(name = "contextKey", description = "Filters by context key")
   @Parameter(name = "projectId", description = "Filters by the given project")
+  @Parameter(
+      name = "comment",
+      description = "Filters to rules with a non-deleted comment containing the given text")
   @GetMapping
   public List<Rule> list(
       @RequestParam(required = false) String contextType,
       @RequestParam(required = false) String contextKey,
-      @RequestParam(required = false) Integer projectId) {
-    return ruleMapper.list(contextType, contextKey, projectId);
+      @RequestParam(required = false) Integer projectId,
+      @RequestParam(required = false) String comment) {
+    return ruleMapper.list(contextType, contextKey, projectId, comment);
   }
 
   @Operation(summary = "Get a single rule (may be deleted)")

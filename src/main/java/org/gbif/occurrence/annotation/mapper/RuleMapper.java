@@ -25,7 +25,8 @@ public interface RuleMapper {
   List<Rule> list(
       @Param("contextType") String contextType,
       @Param("contextKey") String contextKey,
-      @Param("projectId") Integer projectId);
+      @Param("projectId") Integer projectId,
+      @Param("comment") String comment);
 
   Rule get(@Param("id") int id);
 

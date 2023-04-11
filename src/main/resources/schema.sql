@@ -18,10 +18,9 @@ CREATE TABLE project (
 CREATE TABLE rule (
     id SERIAL NOT NULL PRIMARY KEY,
     context_type TEXT NOT NULL,
-    context_key TEXT NULL,
-    geometry TEXT NULL,
-    error_type TEXT,
-    enrichment_type TEXT,
+    context_key TEXT NOT NULL,
+    geometry TEXT NOT NULL,
+    annotation TEXT NOT NULL,
     project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,
     supported_by TEXT[] NOT NULL DEFAULT '{}',
     contested_by TEXT[] NOT NULL DEFAULT '{}',

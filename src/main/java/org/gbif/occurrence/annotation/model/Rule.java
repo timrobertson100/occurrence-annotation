@@ -34,27 +34,22 @@ public class Rule {
     DATASET
   }
 
-  // The type of error the user is reporting
-  public enum ERROR_TYPE {
-    IDENTIFICATION,
-    LOCATION,
-    OTHER
-  }
-
-  // Basic forms of enrichment annotation that may be applied
-  public enum ENRICHMENT_TYPE {
-    INTRODUCED,
+  // The type of annotation applied to the range
+  public enum ANNOTATION_TYPE {
     NATIVE,
+    INTRODUCED,
+    MANAGED,
+    FORMER,
     VAGRANT,
-    CAPTIVITY
+    SUSPICIOUS,
+    OTHER
   }
 
   private Integer id;
   @NotNull private CONTEXT contextType;
   @NotNull private String contextKey;
   @NotNull private String geometry;
-  private ERROR_TYPE errorType;
-  private ENRICHMENT_TYPE enrichmentType;
+  private ANNOTATION_TYPE annotation;
   private Integer projectId;
   private String[] supportedBy;
   private String[] contestedBy;
