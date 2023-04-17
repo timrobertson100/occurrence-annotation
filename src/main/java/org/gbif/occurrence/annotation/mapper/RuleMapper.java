@@ -23,8 +23,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface RuleMapper {
   List<Rule> list(
-      @Param("contextType") String contextType,
-      @Param("contextKey") String contextKey,
+      @Param("taxonKey") Integer taxonKey,
+      @Param("datasetKey") String datasetKey,
       @Param("projectId") Integer projectId,
       @Param("comment") String comment);
 

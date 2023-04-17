@@ -28,12 +28,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Rule {
 
-  // The type of "view" the user had when making the annotation
-  public enum CONTEXT {
-    TAXON,
-    DATASET
-  }
-
   // The type of annotation applied to the range
   public enum ANNOTATION_TYPE {
     NATIVE,
@@ -46,8 +40,8 @@ public class Rule {
   }
 
   private Integer id;
-  @NotNull private CONTEXT contextType;
-  @NotNull private String contextKey;
+  private Integer taxonKey;
+  private String datasetKey;
   @NotNull private String geometry;
   private ANNOTATION_TYPE annotation;
   private Integer projectId;

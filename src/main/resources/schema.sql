@@ -17,8 +17,8 @@ CREATE TABLE project (
 
 CREATE TABLE rule (
     id SERIAL NOT NULL PRIMARY KEY,
-    context_type TEXT NOT NULL,
-    context_key TEXT NOT NULL,
+    taxon_key INT,
+    dataset_key TEXT,
     geometry TEXT NOT NULL,
     annotation TEXT NOT NULL,
     project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,

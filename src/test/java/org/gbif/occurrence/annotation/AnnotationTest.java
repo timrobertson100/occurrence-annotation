@@ -87,16 +87,14 @@ class AnnotationTest {
 
     ruleController.create(
         Rule.builder()
-            .contextType(Rule.CONTEXT.TAXON)
-            .contextKey("1")
+            .taxonKey(1)
             .geometry("geom1")
             .annotation(Rule.ANNOTATION_TYPE.NATIVE)
             .build());
 
     ruleController.create(
         Rule.builder()
-            .contextType(Rule.CONTEXT.DATASET)
-            .contextKey("2")
+            .datasetKey("2")
             .geometry("geom2")
             .projectId(p1.getId())
             .annotation(Rule.ANNOTATION_TYPE.NATIVE)
@@ -104,8 +102,7 @@ class AnnotationTest {
 
     ruleController.create(
         Rule.builder()
-            .contextType(Rule.CONTEXT.TAXON)
-            .contextKey("1")
+            .taxonKey(1)
             .geometry("geom3")
             .projectId(p1.getId())
             .annotation(Rule.ANNOTATION_TYPE.VAGRANT)
@@ -114,8 +111,7 @@ class AnnotationTest {
     Rule deleteRule =
         ruleController.create(
             Rule.builder()
-                .contextType(Rule.CONTEXT.TAXON)
-                .contextKey("1")
+                .taxonKey(1)
                 .geometry("geom4")
                 .annotation(Rule.ANNOTATION_TYPE.INTRODUCED)
                 .build());
@@ -132,7 +128,7 @@ class AnnotationTest {
     assertEquals(
         "2 non-deleted rules were about taxon 1",
         2,
-        ruleController.list("TAXON", "1", null, null).size());
+        ruleController.list(1, null, null, null).size());
     assertEquals(
         "2 non-deleted rules are in project 1",
         2,
@@ -151,8 +147,7 @@ class AnnotationTest {
     Rule r1 =
         ruleController.create(
             Rule.builder()
-                .contextType(Rule.CONTEXT.TAXON)
-                .contextKey("1")
+                .taxonKey(1)
                 .geometry("geom1")
                 .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
@@ -160,8 +155,7 @@ class AnnotationTest {
     Rule r2 =
         ruleController.create(
             Rule.builder()
-                .contextType(Rule.CONTEXT.TAXON)
-                .contextKey("1")
+                .taxonKey(1)
                 .geometry("geom1")
                 .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
@@ -193,8 +187,7 @@ class AnnotationTest {
     Rule r =
         ruleController.create(
             Rule.builder()
-                .contextType(Rule.CONTEXT.TAXON)
-                .contextKey("1")
+                .taxonKey(1)
                 .geometry("geom1")
                 .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
@@ -217,8 +210,7 @@ class AnnotationTest {
     Rule r =
         ruleController.create(
             Rule.builder()
-                .contextType(Rule.CONTEXT.TAXON)
-                .contextKey("1")
+                .taxonKey(1)
                 .geometry("geom1")
                 .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());

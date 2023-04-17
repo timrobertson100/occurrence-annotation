@@ -8,11 +8,11 @@
 
     <select id="list" resultMap="org.gbif.occurrence.annotation.mapper.RuleMapper.RULE_MAP">
         SELECT * FROM rule WHERE deleted IS NULL
-        <if test="contextType != null" >
-            AND context_type = #{contextType}
+        <if test="taxonKey != null" >
+            AND taxon_key = #{taxonKey}
         </if>
-        <if test="contextKey != null" >
-            AND context_key = #{contextKey}
+        <if test="datasetKey != null" >
+            AND dataset_key = #{datasetKey}
         </if>
         <if test="projectId != null" >
             AND project_id = #{projectId}
@@ -30,8 +30,8 @@
     </select>
 
     <insert id="create" parameterType="Rule" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO rule (context_type, context_key, geometry, annotation, project_id, created_by, created)
-        VALUES (#{contextType}, #{contextKey}, #{geometry}, #{annotation}, #{projectId}, #{createdBy}, now())
+        INSERT INTO rule (taxon_key, dataset_key, geometry, annotation, project_id, created_by, created)
+        VALUES (#{taxonKey}, #{datasetKey}, #{geometry}, #{annotation}, #{projectId}, #{createdBy}, now())
     </insert>
 
     <update id="delete" parameterType="map">
@@ -64,16 +64,16 @@
         SELECT
           created_by AS username,
           count(*) AS ruleCount,
-          count(DISTINCT context_key) as contextCount,
+          count(DISTINCT dataset_key) as contextCount,
           SUM(ARRAY_LENGTH(supported_by,1)) AS supportCount,
           SUM(ARRAY_LENGTH(contested_by,1)) AS contestCount
         FROM rule
         WHERE deleted IS NULL
-        <if test="contextType != null" >
-            AND context_type = #{contextType}
+        <if test="taxonKey != null" >
+            AND taxon_key = #{taxonKey}
         </if>
-        <if test="contextKey != null" >
-            AND context_key = #{contextKey}
+        <if test="datasetKey != null" >
+            AND dataset_key = #{datasetKey}
         </if>
         <if test="projectId != null" >
             AND project_id = #{projectId}
