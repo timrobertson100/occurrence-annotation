@@ -13,6 +13,8 @@
  */
 package org.gbif.occurrence.annotation;
 
+import org.gbif.api.vocabulary.UserRole;
+import org.gbif.occurrence.annotation.controller.AuthAdvice;
 import org.gbif.occurrence.annotation.controller.ProjectController;
 import org.gbif.occurrence.annotation.controller.RuleController;
 import org.gbif.occurrence.annotation.model.Comment;
@@ -22,6 +24,7 @@ import org.gbif.occurrence.annotation.model.Rule;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 
 import javax.sql.DataSource;
 
@@ -37,6 +40,9 @@ import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -46,6 +52,7 @@ import lombok.SneakyThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Runs tests against the controllers bypassing HTTP. This requires Docker to be running for the
@@ -215,7 +222,6 @@ class AnnotationTest {
                 .annotation(Rule.ANNOTATION_TYPE.NATIVE)
                 .build());
 
-    // TODO Auth here
     ruleController.support(r.getId());
     ruleController.support(r.getId());
     assertEquals(
@@ -246,6 +252,43 @@ class AnnotationTest {
         "Supporting should remove any previous contest",
         0,
         ruleController.get(r.getId()).getContestedBy().length);
+  }
+
+  @Test
+  void testCommentAuth() {
+    setAuthenticatedUser("tim", UserRole.USER);
+    Rule r =
+        ruleController.create(
+            Rule.builder()
+                .taxonKey(1)
+                .geometry("geom1")
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
+                .build());
+    Comment c =
+        ruleController.addComment(r.getId(), Comment.builder().comment("comment 1").build());
+
+    setAuthenticatedUser("thomas", UserRole.USER);
+    try {
+      ruleController.deleteComment(c.getId());
+      fail("Should not be able to delete other users comments");
+    } catch (AuthAdvice.NotAuthorisedException e) {
+    }
+
+    setAuthenticatedUser("marie", UserRole.REGISTRY_ADMIN);
+    try {
+      ruleController.deleteComment(c.getId());
+    } catch (AuthAdvice.NotAuthorisedException e) {
+      fail("Admin should be able to delete any user comments");
+    }
+  }
+
+  private static void setAuthenticatedUser(String name, UserRole role) {
+    SecurityContextHolder.getContext()
+        .setAuthentication(
+            new UsernamePasswordAuthenticationToken(
+                name,
+                "password",
+                Collections.singletonList(new SimpleGrantedAuthority(role.toString()))));
   }
 
   @BeforeEach

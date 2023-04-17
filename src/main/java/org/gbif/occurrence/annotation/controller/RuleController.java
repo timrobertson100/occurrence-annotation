@@ -13,6 +13,7 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
+import org.gbif.api.vocabulary.UserRole;
 import org.gbif.occurrence.annotation.mapper.CommentMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Comment;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -146,9 +148,21 @@ public class RuleController implements Controller<Rule> {
 
   @Operation(summary = "Logical delete a comment")
   @DeleteMapping("/{id}/comment/{commentId}")
-  @Secured("USER")
+  @Secured({"USER", "REGISTRY_ADMIN"})
   public void deleteComment(@PathVariable(value = "commentId") int commentId) {
+    Comment existing = commentMapper.get(commentId);
     String username = getLoggedInUser();
+    if (!existing.getCreatedBy().equals(username)) {
+      boolean isAdmin =
+          SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+              .anyMatch(r -> r.getAuthority().equals(UserRole.REGISTRY_ADMIN.toString()));
+
+      if (!isAdmin) {
+        throw new AuthAdvice.NotAuthorisedException(
+            "Only the comment author or a registry admin can delete a comment");
+      }
+      ;
+    }
     commentMapper.delete(commentId, username);
   }
 
