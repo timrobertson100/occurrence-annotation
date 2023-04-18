@@ -13,7 +13,11 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
+import org.gbif.api.vocabulary.UserRole;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +35,28 @@ public class AuthAdvice {
   public static class NotAuthorisedException extends RuntimeException {
     public NotAuthorisedException(String message) {
       super(message);
+    }
+  }
+
+  /**
+   * Checks if the currently logged-in user is the creator of the object or an administrator.
+   *
+   * @param creator The creator of the object to test against
+   * @throws NotAuthorisedException If the user is not the creator or an administrator
+   */
+  static void assertCreatorOrAdmin(String creator) throws NotAuthorisedException {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String loggedInUser = authentication.getName();
+    if (!creator.equals(loggedInUser)) {
+
+      boolean isAdmin =
+          SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+              .anyMatch(r -> r.getAuthority().equals(UserRole.REGISTRY_ADMIN.toString()));
+
+      if (!isAdmin) {
+        throw new AuthAdvice.NotAuthorisedException(
+            "Only the creator or an administrator can perform this action");
+      }
     }
   }
 }

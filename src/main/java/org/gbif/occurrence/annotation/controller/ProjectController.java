@@ -36,6 +36,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 
+import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreatorOrAdmin;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/v1/occurrence/annotation/project")
@@ -92,12 +94,16 @@ public class ProjectController implements Controller<Project> {
 
   @Operation(summary = "Logical delete a project and all associated rules")
   @DeleteMapping("/{id}")
-  @Secured("USER")
+  @Secured({"USER", "REGISTRY_ADMIN"})
   @Override
   public Project delete(@PathVariable(value = "id") int id) {
+    Project existing = projectMapper.get(id);
+    assertCreatorOrAdmin(existing.getCreatedBy());
     String username = getLoggedInUser();
     projectMapper.delete(id, username);
+    // admin or project creator can delete anyone's rules within the project
     ruleMapper.deleteByProject(id, username);
+    // comments are not findable, so aren't deleted
     return projectMapper.get(id);
   }
 }
