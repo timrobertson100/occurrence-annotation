@@ -26,7 +26,9 @@ public interface RuleMapper {
       @Param("taxonKey") Integer taxonKey,
       @Param("datasetKey") String datasetKey,
       @Param("projectId") Integer projectId,
-      @Param("comment") String comment);
+      @Param("comment") String comment,
+      @Param("limit") int limit,
+      @Param("offset") int offset);
 
   Rule get(@Param("id") int id);
 

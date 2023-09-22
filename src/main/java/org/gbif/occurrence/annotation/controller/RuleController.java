@@ -55,13 +55,19 @@ public class RuleController implements Controller<Rule> {
   @Parameter(
       name = "comment",
       description = "Filters to rules with a non-deleted comment containing the given text")
+  @Parameter(name = "limit", description = "The limit for paging")
+  @Parameter(name = "offset", description = "The offset for paging")
   @GetMapping
   public List<Rule> list(
       @RequestParam(required = false) Integer taxonKey,
       @RequestParam(required = false) String datasetKey,
       @RequestParam(required = false) Integer projectId,
-      @RequestParam(required = false) String comment) {
-    return ruleMapper.list(taxonKey, datasetKey, projectId, comment);
+      @RequestParam(required = false) String comment,
+      @RequestParam(required = false) Integer limit,
+      @RequestParam(required = false) Integer offset) {
+    int limitInt = limit == null ? 100 : limit.intValue();
+    int offsetInt = offset == null ? 0 : offset.intValue();
+    return ruleMapper.list(taxonKey, datasetKey, projectId, comment, limitInt, offsetInt);
   }
 
   @Operation(summary = "Get a single rule (may be deleted)")

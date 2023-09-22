@@ -8,6 +8,7 @@
     <select id="list" resultMap="org.gbif.occurrence.annotation.mapper.ProjectMapper.PROJECT_MAP">
         SELECT * FROM project
         WHERE deleted IS NULL ORDER BY created DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="get" parameterType="int" resultMap="org.gbif.occurrence.annotation.mapper.ProjectMapper.PROJECT_MAP">

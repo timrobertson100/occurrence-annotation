@@ -73,15 +73,19 @@ class AnnotationTest {
       username = "tim",
       authorities = {"USER"})
   void testProjects() {
-    assertTrue("Projects should be empty", projectController.list().isEmpty());
+    assertTrue("Projects should be empty", projectController.list(100, 0).isEmpty());
     projectController.create(
         Project.builder().name("Legumedata.org").description("A private group").build());
 
-    assertEquals("Should contain the project we just created", 1, projectController.list().size());
+    assertEquals(
+        "Should contain the project we just created", 1, projectController.list(100, 0).size());
     Project legume = projectController.get(1);
     legume.setMembers(ArrayUtils.add(legume.getMembers(), "TIM"));
     projectController.update(1, legume);
     assertEquals("Should have two members", 2, projectController.get(1).getMembers().length);
+
+    assertEquals("Should have one project in page", 1, projectController.list(100, 0).size());
+    assertEquals("Should have no projects in page 1", 0, projectController.list(1, 1).size());
   }
 
   @Test
@@ -131,19 +135,36 @@ class AnnotationTest {
     assertNotNull(
         "A deleted rule should have a deleted timestamp", ruleController.get(deleteRule.getId()));
     assertEquals(
-        "3 active rules were just created", 3, ruleController.list(null, null, null, null).size());
+        "3 active rules were just created",
+        3,
+        ruleController.list(null, null, null, null, 100, 0).size());
     assertEquals(
         "2 non-deleted rules were about taxon 1",
         2,
-        ruleController.list(1, null, null, null).size());
+        ruleController.list(1, null, null, null, 100, 0).size());
     assertEquals(
         "2 non-deleted rules are in project 1",
         2,
-        ruleController.list(null, null, p1.getId(), null).size());
+        ruleController.list(null, null, p1.getId(), null, 100, 0).size());
     assertEquals(
         "0 non-deleted rules are in project 2",
         0,
-        ruleController.list(null, null, p2.getId(), null).size());
+        ruleController.list(null, null, p2.getId(), null, 100, 0).size());
+
+    assertEquals(
+        "2 rules should exist in page 0-2",
+        2,
+        ruleController.list(null, null, null, null, 2, 0).size());
+
+    assertEquals(
+        "1 rule should exist in page 2-4",
+        1,
+        ruleController.list(null, null, null, null, 2, 2).size());
+
+    assertEquals(
+        "0 rule should exist in page 4-6",
+        0,
+        ruleController.list(null, null, null, null, 2, 4).size());
   }
 
   @Test
@@ -178,12 +199,15 @@ class AnnotationTest {
     ruleController.deleteComment(c1.getId());
 
     assertEquals(
-        "Gannin should match 2 rules", 2, ruleController.list(null, null, null, "gannin").size());
+        "Gannin should match 2 rules",
+        2,
+        ruleController.list(null, null, null, "gannin", 100, 0).size());
     assertEquals(
         "Deleted comments should be skipped",
         0,
-        ruleController.list(null, null, null, "delete").size());
-    assertEquals("Pet is only on one rule", 1, ruleController.list(null, null, null, "pet").size());
+        ruleController.list(null, null, null, "delete", 100, 0).size());
+    assertEquals(
+        "Pet is only on one rule", 1, ruleController.list(null, null, null, "pet", 100, 0).size());
   }
 
   @Test

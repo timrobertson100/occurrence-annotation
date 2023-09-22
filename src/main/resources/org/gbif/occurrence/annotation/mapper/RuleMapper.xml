@@ -22,7 +22,7 @@
               SELECT DISTINCT rule_id FROM comment WHERE deleted IS NULL AND comment LIKE '%' || #{comment} || '%'
             )
         </if>
-        ORDER BY created DESC
+        ORDER BY created DESC LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="get" parameterType="int" resultMap="org.gbif.occurrence.annotation.mapper.RuleMapper.RULE_MAP">

@@ -24,17 +24,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 
 import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreatorOrAdmin;
 
@@ -46,9 +39,15 @@ public class ProjectController implements Controller<Project> {
   @Autowired private RuleMapper ruleMapper;
 
   @Operation(summary = "List all projects that are not deleted")
+  @Parameter(name = "limit", description = "The limit for paging")
+  @Parameter(name = "offset", description = "The offset for paging")
   @GetMapping
-  public List<Project> list() {
-    return projectMapper.list();
+  public List<Project> list(
+      @RequestParam(required = false) Integer limit,
+      @RequestParam(required = false) Integer offset) {
+    int limitInt = limit == null ? 100 : limit.intValue();
+    int offsetInt = offset == null ? 0 : offset.intValue();
+    return projectMapper.list(limitInt, offsetInt);
   }
 
   @Operation(summary = "Get a single project (may be deleted)")
