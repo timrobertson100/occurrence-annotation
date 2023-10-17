@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Project {
+public class Ruleset {
   private Integer id;
   @NotNull private String name;
   @NotNull private String description;

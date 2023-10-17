@@ -44,7 +44,7 @@ public class Rule {
   private String datasetKey;
   @NotNull private String geometry;
   private ANNOTATION_TYPE annotation;
-  private Integer projectId;
+  private Integer rulesetId;
   private String[] supportedBy;
   private String[] contestedBy;
   private Date created;

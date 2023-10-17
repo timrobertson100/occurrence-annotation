@@ -25,7 +25,7 @@ public interface RuleMapper {
   List<Rule> list(
       @Param("taxonKey") Integer taxonKey,
       @Param("datasetKey") String datasetKey,
-      @Param("projectId") Integer projectId,
+      @Param("rulesetId") Integer rulesetId,
       @Param("comment") String comment,
       @Param("limit") int limit,
       @Param("offset") int offset);
@@ -36,7 +36,7 @@ public interface RuleMapper {
 
   void delete(@Param("id") int id, @Param("username") String username);
 
-  void deleteByProject(@Param("projectId") int id, @Param("username") String username);
+  void deleteByRuleset(@Param("rulesetId") int id, @Param("username") String username);
 
   void addSupport(@Param("id") int id, @Param("username") String username);
 
@@ -49,5 +49,5 @@ public interface RuleMapper {
   List<Rule> metrics(
       @Param("contextType") String contextType,
       @Param("contextKey") String contextKey,
-      @Param("projectId") Integer projectId);
+      @Param("rulesetId") Integer rulesetId);
 }

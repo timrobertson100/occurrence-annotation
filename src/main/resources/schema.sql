@@ -1,8 +1,8 @@
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS rule;
-DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS ruleset;
 
-CREATE TABLE project (
+CREATE TABLE ruleset (
     id SERIAL NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE rule (
     dataset_key TEXT,
     geometry TEXT NOT NULL,
     annotation TEXT NOT NULL,
-    project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,
+    ruleset_id INT REFERENCES ruleset ON DELETE CASCADE DEFERRABLE,
     supported_by TEXT[] NOT NULL DEFAULT '{}',
     contested_by TEXT[] NOT NULL DEFAULT '{}',
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,

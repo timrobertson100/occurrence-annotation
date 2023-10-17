@@ -13,7 +13,7 @@
  */
 package org.gbif.occurrence.annotation.mapper;
 
-import org.gbif.occurrence.annotation.model.Project;
+import org.gbif.occurrence.annotation.model.Ruleset;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ProjectMapper {
-  List<Project> list(@Param("limit") int limit, @Param("offset") int offset);
+public interface RulesetMapper {
+  List<Ruleset> list(@Param("limit") int limit, @Param("offset") int offset);
 
-  Project get(@Param("id") int id);
+  Ruleset get(@Param("id") int id);
 
-  void create(Project rule);
+  void create(Ruleset rule);
 
-  void update(Project rule);
+  void update(Ruleset rule);
 
   void delete(@Param("id") int id, @Param("username") String username);
 }

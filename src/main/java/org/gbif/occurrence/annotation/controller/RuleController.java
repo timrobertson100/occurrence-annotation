@@ -48,10 +48,10 @@ public class RuleController implements Controller<Rule> {
 
   @Operation(
       summary =
-          "List all rules that are not deleted, optionally filtered by taxonKey, datasetKey, projectId and containing the comment text")
+          "List all rules that are not deleted, optionally filtered by taxonKey, datasetKey, rulesetId and containing the comment text")
   @Parameter(name = "taxonKey", description = "Filters by taxonKey")
   @Parameter(name = "contextKey", description = "Filters by context key")
-  @Parameter(name = "projectId", description = "Filters by the given project")
+  @Parameter(name = "rulesetId", description = "Filters by the given ruleset")
   @Parameter(
       name = "comment",
       description = "Filters to rules with a non-deleted comment containing the given text")
@@ -61,13 +61,13 @@ public class RuleController implements Controller<Rule> {
   public List<Rule> list(
       @RequestParam(required = false) Integer taxonKey,
       @RequestParam(required = false) String datasetKey,
-      @RequestParam(required = false) Integer projectId,
+      @RequestParam(required = false) Integer rulesetId,
       @RequestParam(required = false) String comment,
       @RequestParam(required = false) Integer limit,
       @RequestParam(required = false) Integer offset) {
     int limitInt = limit == null ? 100 : limit.intValue();
     int offsetInt = offset == null ? 0 : offset.intValue();
-    return ruleMapper.list(taxonKey, datasetKey, projectId, comment, limitInt, offsetInt);
+    return ruleMapper.list(taxonKey, datasetKey, rulesetId, comment, limitInt, offsetInt);
   }
 
   @Operation(summary = "Get a single rule (may be deleted)")
@@ -165,15 +165,15 @@ public class RuleController implements Controller<Rule> {
 
   @Operation(
       summary =
-          "Provide basic metrics summarised by username, optionally filtered by contextType, contextKey and projectId")
+          "Provide basic metrics summarised by username, optionally filtered by contextType, contextKey and rulesetId")
   @Parameter(name = "contextType", description = "Filters by context type")
   @Parameter(name = "contextKey", description = "Filters by context key")
-  @Parameter(name = "projectId", description = "Filters by the given project")
+  @Parameter(name = "rulesetId", description = "Filters by the given ruleset")
   @GetMapping("/metrics")
   public List<Rule> metrics(
       @RequestParam(required = false) String contextType,
       @RequestParam(required = false) String contextKey,
-      @RequestParam(required = false) Integer projectId) {
-    return ruleMapper.metrics(contextType, contextKey, projectId);
+      @RequestParam(required = false) Integer rulesetId) {
+    return ruleMapper.metrics(contextType, contextKey, rulesetId);
   }
 }
