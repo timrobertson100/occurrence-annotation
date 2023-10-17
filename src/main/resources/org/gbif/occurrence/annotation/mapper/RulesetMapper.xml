@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gbif.occurrence.annotation.mapper.RulesetMapper">
+    <resultMap id="RULESET_MAP" type="Ruleset" autoMapping="true">
+        <result property="members" column="members" typeHandler="org.apache.ibatis.type.ArrayTypeHandler"/>
+    </resultMap>
+
+    <select id="list" resultMap="org.gbif.occurrence.annotation.mapper.RulesetMapper.RULESET_MAP">
+        SELECT * FROM ruleset
+        WHERE deleted IS NULL ORDER BY created DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="get" parameterType="int" resultMap="org.gbif.occurrence.annotation.mapper.RulesetMapper.RULESET_MAP">
+        SELECT * FROM ruleset WHERE id = #{id}
+    </select>
+
+    <insert id="create" parameterType="Ruleset" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO ruleset (name, description, members, created_by, created)
+        VALUES (#{name}, #{description}, #{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, #{createdBy}, now())
+    </insert>
+
+    <update id="update" parameterType="Ruleset">
+        UPDATE ruleset SET name=#{name}, description=#{description}, members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
+        WHERE id = #{id} AND DELETED IS NULL
+    </update>
+
+    <update id="delete" parameterType="map">
+        UPDATE ruleset SET deleted = now(), deleted_by = #{username} WHERE id = #{id} AND DELETED IS NULL
+    </update>
+</mapper>

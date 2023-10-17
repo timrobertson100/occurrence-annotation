@@ -13,9 +13,9 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
-import org.gbif.occurrence.annotation.mapper.ProjectMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
-import org.gbif.occurrence.annotation.model.Project;
+import org.gbif.occurrence.annotation.mapper.RulesetMapper;
+import org.gbif.occurrence.annotation.model.Ruleset;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,76 +33,76 @@ import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreator
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/v1/occurrence/annotation/project")
-public class ProjectController implements Controller<Project> {
-  @Autowired private ProjectMapper projectMapper;
+@RequestMapping("/v1/occurrence/annotation/ruleset")
+public class RulesetController implements Controller<Ruleset> {
+  @Autowired private RulesetMapper rulesetMapper;
   @Autowired private RuleMapper ruleMapper;
 
-  @Operation(summary = "List all projects that are not deleted")
+  @Operation(summary = "List all rulesets that are not deleted")
   @Parameter(name = "limit", description = "The limit for paging")
   @Parameter(name = "offset", description = "The offset for paging")
   @GetMapping
-  public List<Project> list(
+  public List<Ruleset> list(
       @RequestParam(required = false) Integer limit,
       @RequestParam(required = false) Integer offset) {
     int limitInt = limit == null ? 100 : limit.intValue();
     int offsetInt = offset == null ? 0 : offset.intValue();
-    return projectMapper.list(limitInt, offsetInt);
+    return rulesetMapper.list(limitInt, offsetInt);
   }
 
-  @Operation(summary = "Get a single project (may be deleted)")
+  @Operation(summary = "Get a single ruleset (may be deleted)")
   @GetMapping("/{id}")
   @Override
-  public Project get(@PathVariable(value = "id") int id) {
-    return projectMapper.get(id);
+  public Ruleset get(@PathVariable(value = "id") int id) {
+    return rulesetMapper.get(id);
   }
 
-  @Operation(summary = "Create a new project")
+  @Operation(summary = "Create a new ruleset")
   @PostMapping
   @Secured("USER")
   @Override
-  public Project create(@Valid @RequestBody Project project) {
+  public Ruleset create(@Valid @RequestBody Ruleset ruleset) {
     String username = getLoggedInUser();
-    project.setCreatedBy(username);
-    project.setMembers(new String[] {username}); // creator is always a member
-    projectMapper.create(project); // mybatis sets id
-    return projectMapper.get(project.getId());
+    ruleset.setCreatedBy(username);
+    ruleset.setMembers(new String[] {username}); // creator is always a member
+    rulesetMapper.create(ruleset); // mybatis sets id
+    return rulesetMapper.get(ruleset.getId());
   }
 
-  @Operation(summary = "Update a project")
+  @Operation(summary = "Update a ruleset")
   @PutMapping("/{id}")
   @Secured("USER")
-  public Project update(@PathVariable(value = "id") int id, @Valid @RequestBody Project project) {
-    Project existing = projectMapper.get(id);
+  public Ruleset update(@PathVariable(value = "id") int id, @Valid @RequestBody Ruleset ruleset) {
+    Ruleset existing = rulesetMapper.get(id);
 
     // only members can update
     if (existing == null || !Arrays.asList(existing.getMembers()).contains(getLoggedInUser())) {
-      throw new IllegalArgumentException("User must be a member of the project being updated");
+      throw new IllegalArgumentException("User must be a member of the ruleset being updated");
     }
 
     // ensure there is at least one editor
-    if (project.getMembers() == null || project.getMembers().length == 0) {
-      throw new IllegalArgumentException("Project must have at least one member");
+    if (ruleset.getMembers() == null || ruleset.getMembers().length == 0) {
+      throw new IllegalArgumentException("Ruleset must have at least one member");
     }
 
-    project.setModifiedBy(getLoggedInUser());
-    project.setId(id); // defensive
-    projectMapper.update(project);
-    return projectMapper.get(id);
+    ruleset.setModifiedBy(getLoggedInUser());
+    ruleset.setId(id); // defensive
+    rulesetMapper.update(ruleset);
+    return rulesetMapper.get(id);
   }
 
-  @Operation(summary = "Logical delete a project and all associated rules")
+  @Operation(summary = "Logical delete a ruleset and all associated rules")
   @DeleteMapping("/{id}")
   @Secured({"USER", "REGISTRY_ADMIN"})
   @Override
-  public Project delete(@PathVariable(value = "id") int id) {
-    Project existing = projectMapper.get(id);
+  public Ruleset delete(@PathVariable(value = "id") int id) {
+    Ruleset existing = rulesetMapper.get(id);
     assertCreatorOrAdmin(existing.getCreatedBy());
     String username = getLoggedInUser();
-    projectMapper.delete(id, username);
-    // admin or project creator can delete anyone's rules within the project
-    ruleMapper.deleteByProject(id, username);
+    rulesetMapper.delete(id, username);
+    // admin or ruleset creator can delete anyone's rules within the ruleset
+    ruleMapper.deleteByRuleset(id, username);
     // comments are not findable, so aren't deleted
-    return projectMapper.get(id);
+    return rulesetMapper.get(id);
   }
 }
