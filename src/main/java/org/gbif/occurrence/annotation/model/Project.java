@@ -26,9 +26,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Ruleset {
+public class Project {
   private Integer id;
-  private Integer projectId;
+  private Integer[] ruleset_id;
   @NotNull private String name;
   @NotNull private String description;
   private String[] members;
