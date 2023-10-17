@@ -1,9 +1,25 @@
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS rule;
 DROP TABLE IF EXISTS ruleset;
+DROP TABLE IF EXISTS project;
+
+CREATE TABLE project (
+    id SERIAL NOT NULL PRIMARY KEY,
+    ruleset_id INT[] NOT NULL DEFAULT '{}',
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    members TEXT[] NOT NULL DEFAULT '{}',
+    created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    created_by TEXT NOT NULL,
+    modified TIMESTAMP WITHOUT TIME ZONE,
+    modified_by TEXT,
+    deleted TIMESTAMP WITHOUT TIME ZONE,
+    deleted_by TEXT
+);
 
 CREATE TABLE ruleset (
     id SERIAL NOT NULL PRIMARY KEY,
+    project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     members TEXT[] NOT NULL DEFAULT '{}',

@@ -16,12 +16,12 @@
     </select>
 
     <insert id="create" parameterType="Ruleset" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO ruleset (name, description, members, created_by, created)
-        VALUES (#{name}, #{description}, #{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, #{createdBy}, now())
+    INSERT INTO ruleset (name, description, project_id, members, created_by, created)
+    VALUES (#{name}, #{description}, #{projectId}, #{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, #{createdBy}, now());
     </insert>
 
     <update id="update" parameterType="Ruleset">
-        UPDATE ruleset SET name=#{name}, description=#{description}, members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
+        UPDATE ruleset SET name=#{name}, description=#{description}, project_id=#{project_id}, members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
         WHERE id = #{id} AND DELETED IS NULL
     </update>
 
