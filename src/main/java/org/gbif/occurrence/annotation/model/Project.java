@@ -28,7 +28,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Project {
   private Integer id;
-  private Integer[] ruleset_id;
   @NotNull private String name;
   @NotNull private String description;
   private String[] members;

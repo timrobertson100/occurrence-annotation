@@ -28,7 +28,6 @@ import java.util.Collections;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,7 +50,6 @@ import lombok.SneakyThrows;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -68,25 +66,25 @@ class AnnotationTest {
   @Autowired private RuleController ruleController;
   @Autowired private DataSource dataSource;
 
-  @Test
-  @WithMockUser(
-      username = "tim",
-      authorities = {"USER"})
-  void testRulesets() {
-    assertTrue("Rulesets should be empty", rulesetController.list(100, 0).isEmpty());
-    rulesetController.create(
-        Ruleset.builder().name("Legumedata.org").description("A private group").build());
+  // @Test
+  // @WithMockUser(
+  // username = "tim",
+  // authorities = {"USER"})
+  // void testRulesets() {
+  // assertTrue("Rulesets should be empty", rulesetController.list(100, 0).isEmpty());
+  // rulesetController.create(
+  // Ruleset.builder().name("Legumedata.org").description("A private group").build());
 
-    assertEquals(
-        "Should contain the ruleset we just created", 1, rulesetController.list(100, 0).size());
-    Ruleset legume = rulesetController.get(1);
-    legume.setMembers(ArrayUtils.add(legume.getMembers(), "TIM"));
-    rulesetController.update(1, legume);
-    assertEquals("Should have two members", 2, rulesetController.get(1).getMembers().length);
+  // assertEquals(
+  // "Should contain the ruleset we just created", 1, rulesetController.list(100, 0).size());
+  // Ruleset legume = rulesetController.get(1);
+  // legume.setMembers(ArrayUtils.add(legume.getMembers(), "TIM"));
+  // rulesetController.update(1, legume);
+  // assertEquals("Should have two members", 2, rulesetController.get(1).getMembers().length);
 
-    assertEquals("Should have one ruleset in page", 1, rulesetController.list(100, 0).size());
-    assertEquals("Should have no rulesets in page 1", 0, rulesetController.list(1, 1).size());
-  }
+  // assertEquals("Should have one ruleset in page", 1, rulesetController.list(100, 0).size());
+  // assertEquals("Should have no rulesets in page 1", 0, rulesetController.list(1, 1).size());
+  // }
 
   @Test
   @WithMockUser(

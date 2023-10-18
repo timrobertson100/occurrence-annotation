@@ -39,15 +39,17 @@ public class RulesetController implements Controller<Ruleset> {
   @Autowired private RuleMapper ruleMapper;
 
   @Operation(summary = "List all rulesets that are not deleted")
+  @Parameter(name = "projectId", description = "Filters by projectId")
   @Parameter(name = "limit", description = "The limit for paging")
   @Parameter(name = "offset", description = "The offset for paging")
   @GetMapping
   public List<Ruleset> list(
+      @RequestParam(required = false) Integer projectId,
       @RequestParam(required = false) Integer limit,
       @RequestParam(required = false) Integer offset) {
     int limitInt = limit == null ? 100 : limit.intValue();
     int offsetInt = offset == null ? 0 : offset.intValue();
-    return rulesetMapper.list(limitInt, offsetInt);
+    return rulesetMapper.list(projectId, limitInt, offsetInt);
   }
 
   @Operation(summary = "Get a single ruleset (may be deleted)")
