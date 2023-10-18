@@ -22,7 +22,10 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface RulesetMapper {
-  List<Ruleset> list(@Param("limit") int limit, @Param("offset") int offset);
+  List<Ruleset> list(
+      @Param("projectId") Integer projectId,
+      @Param("limit") int limit,
+      @Param("offset") int offset);
 
   Ruleset get(@Param("id") int id);
 

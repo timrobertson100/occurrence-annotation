@@ -6,9 +6,11 @@
     </resultMap>
 
     <select id="list" resultMap="org.gbif.occurrence.annotation.mapper.RulesetMapper.RULESET_MAP">
-        SELECT * FROM ruleset
-        WHERE deleted IS NULL ORDER BY created DESC
-        LIMIT #{limit} OFFSET #{offset}
+        SELECT * FROM ruleset WHERE deleted IS NULL 
+        <if test="projectId != null" >
+            AND project_id = #{projectId}
+        </if>
+        ORDER BY created DESC LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="get" parameterType="int" resultMap="org.gbif.occurrence.annotation.mapper.RulesetMapper.RULESET_MAP">

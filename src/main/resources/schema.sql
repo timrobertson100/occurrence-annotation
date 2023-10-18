@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS project;
 
 CREATE TABLE project (
     id SERIAL NOT NULL PRIMARY KEY,
-    ruleset_id INT[] NOT NULL DEFAULT '{}',
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     members TEXT[] NOT NULL DEFAULT '{}',

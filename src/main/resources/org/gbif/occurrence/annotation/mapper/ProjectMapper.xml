@@ -22,7 +22,7 @@
     </insert>
 
     <update id="update" parameterType="Project">
-        UPDATE project SET name=#{name}, description=#{description}, ruleset_id=#{ruleset_id,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
+        UPDATE project SET name=#{name}, description=#{description}, members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
         WHERE id = #{id} AND DELETED IS NULL
     </update>
 
