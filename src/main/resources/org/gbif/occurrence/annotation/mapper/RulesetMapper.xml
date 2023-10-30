@@ -30,4 +30,8 @@
     <update id="delete" parameterType="map">
         UPDATE ruleset SET deleted = now(), deleted_by = #{username} WHERE id = #{id} AND DELETED IS NULL
     </update>
+
+    <update id="deleteByProject" parameterType="map">
+        UPDATE ruleset SET deleted = now(), deleted_by = #{username} WHERE project_id = #{projectId} AND DELETED IS NULL
+    </update>
 </mapper>
