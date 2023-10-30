@@ -15,6 +15,7 @@ package org.gbif.occurrence.annotation.controller;
 
 import org.gbif.occurrence.annotation.mapper.ProjectMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
+import org.gbif.occurrence.annotation.mapper.RulesetMapper;
 import org.gbif.occurrence.annotation.model.Project;
 
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreator
 @RequestMapping("/v1/occurrence/annotation/project")
 public class ProjectController implements Controller<Project> {
   @Autowired private ProjectMapper projectMapper;
+  @Autowired private RulesetMapper rulesetMapper;
   @Autowired private RuleMapper ruleMapper;
 
   @Operation(summary = "List all projects that are not deleted")
@@ -101,7 +103,8 @@ public class ProjectController implements Controller<Project> {
     String username = getLoggedInUser();
     projectMapper.delete(id, username);
     // admin or project creator can delete anyone's rules within the project
-    // ruleMapper.deleteByProject(id, username);
+    rulesetMapper.deleteByProject(id, username);
+    ruleMapper.deleteByProject(id, username);
     // comments are not findable, so aren't deleted
     return projectMapper.get(id);
   }

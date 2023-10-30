@@ -17,6 +17,9 @@
         <if test="rulesetId != null" >
             AND ruleset_id = #{rulesetId}
         </if>
+        <if test="projectId != null" >
+            AND project_id = #{projectId}
+        </if>
         <if test="comment != null" >
             AND id IN (
               SELECT DISTINCT rule_id FROM comment WHERE deleted IS NULL AND comment LIKE '%' || #{comment} || '%'
@@ -30,8 +33,8 @@
     </select>
 
     <insert id="create" parameterType="Rule" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO rule (taxon_key, dataset_key, geometry, annotation, ruleset_id, created_by, created)
-        VALUES (#{taxonKey}, #{datasetKey}, #{geometry}, #{annotation}, #{rulesetId}, #{createdBy}, now())
+        INSERT INTO rule (taxon_key, dataset_key, geometry, annotation, ruleset_id, project_id, created_by, created)
+        VALUES (#{taxonKey}, #{datasetKey}, #{geometry}, #{annotation}, #{rulesetId}, #{projectId}, #{createdBy}, now())
     </insert>
 
     <update id="delete" parameterType="map">
@@ -40,6 +43,10 @@
 
     <update id="deleteByRuleset" parameterType="map">
         UPDATE rule SET deleted = now(), deleted_by = #{username} WHERE ruleset_id = #{rulesetId} AND DELETED IS NULL
+    </update>
+
+    <update id="deleteByProject" parameterType="map">
+        UPDATE rule SET deleted = now(), deleted_by = #{username} WHERE project_id = #{projectId} AND DELETED IS NULL
     </update>
 
     <update id="addSupport" parameterType="map">

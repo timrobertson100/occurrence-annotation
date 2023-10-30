@@ -37,6 +37,7 @@ CREATE TABLE rule (
     geometry TEXT NOT NULL,
     annotation TEXT NOT NULL,
     ruleset_id INT REFERENCES ruleset ON DELETE CASCADE DEFERRABLE,
+    project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,
     supported_by TEXT[] NOT NULL DEFAULT '{}',
     contested_by TEXT[] NOT NULL DEFAULT '{}',
     created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
