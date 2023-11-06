@@ -15,9 +15,11 @@ package org.gbif.occurrence.annotation;
 
 import org.gbif.api.vocabulary.UserRole;
 import org.gbif.occurrence.annotation.controller.AuthAdvice;
+import org.gbif.occurrence.annotation.controller.ProjectController;
 import org.gbif.occurrence.annotation.controller.RuleController;
 import org.gbif.occurrence.annotation.controller.RulesetController;
 import org.gbif.occurrence.annotation.model.Comment;
+import org.gbif.occurrence.annotation.model.Project;
 import org.gbif.occurrence.annotation.model.Rule;
 import org.gbif.occurrence.annotation.model.Ruleset;
 
@@ -64,28 +66,52 @@ import static org.junit.Assert.fail;
 class AnnotationTest {
   @RegisterExtension protected static EmbeddedPostgres pgContainer = new EmbeddedPostgres();
 
+  @Autowired private ProjectController projectController;
   @Autowired private RulesetController rulesetController;
   @Autowired private RuleController ruleController;
   @Autowired private DataSource dataSource;
 
   @Test
   @WithMockUser(
+          username = "tim",
+          authorities = {"USER"})
+  void testProjects() {
+    assertTrue("Projects should be empty", projectController.list(100, 0).isEmpty());
+    projectController.create(
+            Project.builder().name("Legumedata.org").description("A collection of rulesets").build());
+
+    assertEquals(
+            "Should contain the project we just created", 1, projectController.list(100, 0).size());
+    Project legume = projectController.get(1);
+    legume.setMembers(ArrayUtils.add(legume.getMembers(), "JOE"));
+    projectController.update(1, legume);
+    assertEquals("Should have two members", 2, projectController.get(1).getMembers().length);
+
+    assertEquals("Should have one project in page", 1, projectController.list(100, 0).size());
+    assertEquals("Should have no projects in page 1", 0, projectController.list(1, 1).size());
+  }
+
+  @Test
+  @WithMockUser(
       username = "tim",
       authorities = {"USER"})
   void testRulesets() {
-    assertTrue("Rulesets should be empty", rulesetController.list(100, 0).isEmpty());
+    Project p1 = projectController.create(Project.builder().name("1").description("1").build());
+
+    assertTrue("There should be no ruleset in project 1", rulesetController.list(1,100, 0).isEmpty());
+
     rulesetController.create(
-        Ruleset.builder().name("Legumedata.org").description("A private group").build());
+        Ruleset.builder().projectId(p1.getId()).name("Rules about legumes").description("Canny rules").build());
 
     assertEquals(
-        "Should contain the ruleset we just created", 1, rulesetController.list(100, 0).size());
+        "Should contain the ruleset we just created", 1, rulesetController.list(1, 100, 0).size());
     Ruleset legume = rulesetController.get(1);
-    legume.setMembers(ArrayUtils.add(legume.getMembers(), "TIM"));
+    legume.setMembers(ArrayUtils.add(legume.getMembers(), "JOE"));
     rulesetController.update(1, legume);
-    assertEquals("Should have two members", 2, rulesetController.get(1).getMembers().length);
+    assertEquals("Should have two members", 2, legume.getMembers().length);
 
-    assertEquals("Should have one ruleset in page", 1, rulesetController.list(100, 0).size());
-    assertEquals("Should have no rulesets in page 1", 0, rulesetController.list(1, 1).size());
+    assertEquals("Should have one ruleset in page", 1, rulesetController.list(1,100, 0).size());
+    assertEquals("Should have no rulesets in page 1", 0, rulesetController.list(1,1, 1).size());
   }
 
   @Test
@@ -93,8 +119,10 @@ class AnnotationTest {
       username = "tim",
       authorities = {"USER"})
   void testRuleLifecycle() {
-    Ruleset p1 = rulesetController.create(Ruleset.builder().name("1").description("1").build());
-    Ruleset p2 = rulesetController.create(Ruleset.builder().name("2").description("2").build());
+    Project p1 = projectController.create(Project.builder().name("1").description("1").build());
+    Project p2 = projectController.create(Project.builder().name("2").description("2").build());
+    Ruleset rs1 = rulesetController.create(Ruleset.builder().projectId(p1.getId()).name("1").description("1").build());
+    Ruleset rs2 = rulesetController.create(Ruleset.builder().projectId(p1.getId()).name("2").description("2").build());
 
     ruleController.create(
         Rule.builder()
@@ -107,7 +135,8 @@ class AnnotationTest {
         Rule.builder()
             .datasetKey("2")
             .geometry("geom2")
-            .rulesetId(p1.getId())
+            .rulesetId(rs1.getId())
+            .projectId(p1.getId())
             .annotation(Rule.ANNOTATION_TYPE.NATIVE)
             .build());
 
@@ -115,7 +144,8 @@ class AnnotationTest {
         Rule.builder()
             .taxonKey(1)
             .geometry("geom3")
-            .rulesetId(p1.getId())
+            .rulesetId(rs1.getId())
+            .projectId(p1.getId())
             .annotation(Rule.ANNOTATION_TYPE.VAGRANT)
             .build());
 
@@ -137,34 +167,34 @@ class AnnotationTest {
     assertEquals(
         "3 active rules were just created",
         3,
-        ruleController.list(null, null, null, null, 100, 0).size());
+        ruleController.list(null, null, null, null, null ,100, 0).size());
     assertEquals(
         "2 non-deleted rules were about taxon 1",
         2,
-        ruleController.list(1, null, null, null, 100, 0).size());
+        ruleController.list(1, null, null, null, null,100, 0).size());
     assertEquals(
-        "2 non-deleted rules are in ruleset 1",
+        "2 non-deleted rules are in ruleset 1 and project 1",
         2,
-        ruleController.list(null, null, p1.getId(), null, 100, 0).size());
+        ruleController.list(null, null, rs1.getId(), p1.getId(), null,100, 0).size());
     assertEquals(
-        "0 non-deleted rules are in ruleset 2",
+        "0 non-deleted rules are in ruleset 2 and project 2",
         0,
-        ruleController.list(null, null, p2.getId(), null, 100, 0).size());
+        ruleController.list(null, null, rs2.getId() ,p2.getId(), null, 100, 0).size());
 
     assertEquals(
-        "2 rules should exist in page 0-2",
+        "2 rules should exist for limit 0-2",
         2,
-        ruleController.list(null, null, null, null, 2, 0).size());
+        ruleController.list(null, null, null, null, null, 2, 0).size());
 
     assertEquals(
         "1 rule should exist in page 2-4",
         1,
-        ruleController.list(null, null, null, null, 2, 2).size());
+        ruleController.list(null, null, null, null, null,2, 2).size());
 
     assertEquals(
         "0 rule should exist in page 4-6",
         0,
-        ruleController.list(null, null, null, null, 2, 4).size());
+        ruleController.list(null, null, null, null, null,2, 4).size());
   }
 
   @Test
@@ -201,13 +231,13 @@ class AnnotationTest {
     assertEquals(
         "Gannin should match 2 rules",
         2,
-        ruleController.list(null, null, null, "gannin", 100, 0).size());
+        ruleController.list(null, null, null, null, "gannin", 100, 0).size());
     assertEquals(
         "Deleted comments should be skipped",
         0,
-        ruleController.list(null, null, null, "delete", 100, 0).size());
+        ruleController.list(null, null, null, null ,"delete", 100, 0).size());
     assertEquals(
-        "Pet is only on one rule", 1, ruleController.list(null, null, null, "pet", 100, 0).size());
+        "Pet is only on one rule", 1, ruleController.list(null, null, null, null,"pet", 100, 0).size());
   }
 
   @Test
@@ -276,6 +306,85 @@ class AnnotationTest {
         "Supporting should remove any previous contest",
         0,
         ruleController.get(r.getId()).getContestedBy().length);
+  }
+
+  @Test
+  @WithMockUser(
+          username = "tim",
+          authorities = {"USER"})
+  void testDeleteByProject() {
+    // delete ruleset and rules by deleting just the project
+    Project p1 = projectController.create(Project.builder().name("1").description("1").build());
+    Ruleset rs1 = rulesetController.create(Ruleset.builder().projectId(p1.getId()).name("1").description("1").build());
+    Rule r1 = ruleController.create(Rule.builder().projectId(p1.getId()).rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    Rule r2 = ruleController.create(Rule.builder().projectId(p1.getId()).rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    // rule 3 is not associated with a project or ruleset
+    Rule r3 = ruleController.create(Rule.builder().taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    // rule 4 is not associate with a project
+    Rule r4 = ruleController.create(Rule.builder().rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+
+    assertEquals(
+            "4 non-deleted rules",
+            4,
+            ruleController.list(null, null, null, null, null,100, 0).size());
+
+    projectController.delete(p1.getId());
+
+    assertEquals(
+            "2 non-deleted rules not associated with project 1",
+            2,
+            ruleController.list(null, null, null, null, null,100, 0).size());
+    assertEquals(
+            "0 non-deleted rulesets since they were all in project 1",
+            0,
+            rulesetController.list(null,100, 0).size());
+    assertEquals(
+            "0 non-deleted projects",
+            0,
+            projectController.list(100, null).size());
+
+  }
+
+  @Test
+  @WithMockUser(
+          username = "tim",
+          authorities = {"USER"})
+  void testDeleteByRuleset() {
+    // delete ruleset and rules by deleting just the ruleset
+    Project p1 = projectController.create(Project.builder().name("1").description("1").build());
+    Ruleset rs1 = rulesetController.create(Ruleset.builder().projectId(p1.getId()).name("1").description("1").build());
+    Rule r1 = ruleController.create(Rule.builder().projectId(p1.getId()).rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    Rule r2 = ruleController.create(Rule.builder().projectId(p1.getId()).rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    // rule 3 is not associated with a project or ruleset
+    Rule r3 = ruleController.create(Rule.builder().taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+    // rule 4 is not associate with a project
+    Rule r4 = ruleController.create(Rule.builder().rulesetId(rs1.getId()).taxonKey(1).geometry("geom1").annotation(Rule.ANNOTATION_TYPE.NATIVE).build());
+
+    assertEquals(
+            "4 non-deleted rules",
+            4,
+            ruleController.list(null, null, null, null, null,100, 0).size());
+
+    assertEquals(
+            "3 non-deleted rules",
+            3,
+            ruleController.list(null, null, rs1.getId(), null, null,100, 0).size());
+
+    rulesetController.delete(rs1.getId());
+
+    assertEquals(
+            "0 non-deleted rules",
+            0,
+            ruleController.list(null, null, rs1.getId(), null, null,100, 0).size());
+
+    assertEquals(
+            "0 non-deleted rules",
+            0,
+            ruleController.list(null, null, null, p1.getId(), null,100, 0).size());
+    assertEquals(
+            "1 non-deleted rules",
+            1,
+            ruleController.list(null, null, null, null, null,100, 0).size());
   }
 
   @Test
