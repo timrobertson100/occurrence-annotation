@@ -51,14 +51,13 @@ You might also need to have a running `postgres` instance with a database named 
 sudo -u postgres psql
 postgres=# CREATE DATABASE annotation;
 ```
+Run the [schema.sql](https://github.com/gbif/occurrence-annotation/blob/main/src/main/resources/schema.sql) to create the needed tables.
 
 Finally, run spring boot. 
 
 ```shell
 mvn spring-boot:run
 ```
-
-Run the [schema.sql](https://github.com/gbif/occurrence-annotation/blob/main/src/main/resources/schema.sql) to create the needed tables. 
 
 Try it out locally using `curl`. Where `"$GBIF_USER:$GBIF_PWD"` are your GBIF username and password.
 
@@ -67,20 +66,20 @@ Try it out locally using `curl`. Where `"$GBIF_USER:$GBIF_PWD"` are your GBIF us
 curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" \
   -d '{"name":"LegumeData.org Annotation Project", "description":"Annotation rules from the Legumedata.org group"}'
 
-# Create a ruleset for that project 
-curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/ruleset -H "Content-Type: application/json" \
-  -d '{"name":"LegumeData.org", "description":"Annotations from the Legumedata.org group"}'
+# Create a ruleset for that project using the projectId (edit projectId to match project)
+curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/ruleset -H "Content-Type: application/json" \
+  -d '{"projectId": 1, "name":"Legume ruleset", "description":"ruleset for legumes"}'
 
 # Create a rule for the ruleset and project 
-curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule -H "Content-Type: application/json" \
-  -d '{"taxonKey":2435099, "geometry":"POLYGON((24.67406 48.90016,24.7533 48.90016,24.7533 48.94698,24.67406 48.94698,24.67406 48.90016))", "rulesetId": 1, "annotation":"INTRODUCED"}'
+curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/rule -H "Content-Type: application/json" \
+  -d '{"projectId": 1, "rulesetId": 1, "taxonKey":2435099, "geometry":"POLYGON((24.67406 48.90016,24.7533 48.90016,24.7533 48.94698,24.67406 48.94698,24.67406 48.90016))", "annotation":"INTRODUCED"}'
 
 # Add a comment to a rule  
-curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/comment -H "Content-Type: application/json" \
+curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/comment -H "Content-Type: application/json" \
   -d '{"comment":"Terrestrial species in the sea"}'
 
 # Upvote a rule 
-curl -u "username:password" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/support 
+curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/rule/1/support 
 ```
 The API is documented on http://localhost:8080/swagger-ui/index.html 
 
