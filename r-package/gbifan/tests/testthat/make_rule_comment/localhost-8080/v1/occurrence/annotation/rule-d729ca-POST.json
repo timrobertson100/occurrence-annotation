@@ -1,0 +1,19 @@
+{
+    "id": 34,
+    "taxonKey": 1,
+    "datasetKey": null,
+    "geometry": "WKT",
+    "annotation": "NATIVE",
+    "rulesetId": null,
+    "projectId": null,
+    "supportedBy": [
+
+    ],
+    "contestedBy": [
+
+    ],
+    "created": "2023-11-10T14:31:25.990+00:00",
+    "createdBy": "jwaller",
+    "deleted": null,
+    "deletedBy": null
+}

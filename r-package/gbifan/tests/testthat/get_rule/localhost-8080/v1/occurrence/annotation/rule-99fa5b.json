@@ -1,0 +1,192 @@
+[
+    {
+        "id": 32,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 51,
+        "projectId": 57,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T14:08:04.182+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 31,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 50,
+        "projectId": 56,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T14:00:47.482+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 30,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 49,
+        "projectId": 55,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T13:59:38.932+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 29,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 48,
+        "projectId": 54,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T13:54:20.192+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 28,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 47,
+        "projectId": 53,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T13:50:39.666+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 27,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "WKT",
+        "annotation": "NATIVE",
+        "rulesetId": 46,
+        "projectId": 52,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T13:31:52.998+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 26,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "",
+        "annotation": "NATIVE",
+        "rulesetId": 38,
+        "projectId": 39,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T10:26:14.407+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 25,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "",
+        "annotation": "NATIVE",
+        "rulesetId": null,
+        "projectId": null,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T10:26:13.024+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 24,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "",
+        "annotation": "NATIVE",
+        "rulesetId": null,
+        "projectId": null,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-10T09:57:19.612+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 5,
+        "taxonKey": 1,
+        "datasetKey": null,
+        "geometry": "",
+        "annotation": "NATIVE",
+        "rulesetId": 2,
+        "projectId": 6,
+        "supportedBy": [
+
+        ],
+        "contestedBy": [
+
+        ],
+        "created": "2023-11-07T12:48:29.884+00:00",
+        "createdBy": "jwaller",
+        "deleted": null,
+        "deletedBy": null
+    }
+]
