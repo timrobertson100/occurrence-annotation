@@ -87,9 +87,11 @@ public class ProjectController implements Controller<Project> {
       throw new IllegalArgumentException("Project must have at least one member");
     }
 
+    String[] members = project.getMembers();
     project.setModifiedBy(getLoggedInUser());
     project.setId(id); // defensive
     projectMapper.update(project);
+    rulesetMapper.updateMembersByProject(id, members);
     return projectMapper.get(id);
   }
 

@@ -36,4 +36,6 @@ public interface RulesetMapper {
   void delete(@Param("id") int id, @Param("username") String username);
 
   void deleteByProject(@Param("projectId") int id, @Param("username") String username);
+
+  void updateMembersByProject(@Param("projectId") int id, @Param("members") String[] members);
 }

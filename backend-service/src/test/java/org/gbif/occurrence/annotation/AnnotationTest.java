@@ -451,6 +451,26 @@ class AnnotationTest {
   }
 
   @Test
+  @WithMockUser(
+      username = "tim",
+      authorities = {"USER"})
+  void testUpdateMembersByProject() {
+    Project p1 = projectController.create(Project.builder().name("1").description("1").build());
+    Ruleset rs1 =
+        rulesetController.create(
+            Ruleset.builder().projectId(p1.getId()).name("1").description("1").build());
+    assertEquals("1 member", 1, rulesetController.get(rs1.getId()).getMembers().length);
+    Ruleset rs2 =
+        rulesetController.create(
+            Ruleset.builder().projectId(p1.getId()).name("2").description("2").build());
+    assertEquals("1 member", 1, rulesetController.get(rs2.getId()).getMembers().length);
+    p1.setMembers(ArrayUtils.add(p1.getMembers(), "JOHN"));
+    projectController.update(p1.getId(), p1);
+    assertEquals("2 members", 2, rulesetController.get(rs1.getId()).getMembers().length);
+    assertEquals("2 members", 2, rulesetController.get(rs2.getId()).getMembers().length);
+  }
+
+  @Test
   void testCommentAuth() {
     setAuthenticatedUser("tim", UserRole.USER);
     Rule r =

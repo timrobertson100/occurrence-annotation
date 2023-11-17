@@ -34,4 +34,9 @@
     <update id="deleteByProject" parameterType="map">
         UPDATE ruleset SET deleted = now(), deleted_by = #{username} WHERE project_id = #{projectId} AND DELETED IS NULL
     </update>
+
+    <update id="updateMembersByProject" parameterType="map">
+        UPDATE ruleset SET members=#{members,typeHandler=org.apache.ibatis.type.ArrayTypeHandler}, modified=now()
+        WHERE project_id = #{projectId} AND DELETED IS NULL
+    </update>
 </mapper>
