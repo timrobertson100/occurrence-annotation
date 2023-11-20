@@ -1,5 +1,4 @@
-
-with_mock_dir("make_project", {
+with_mock_dir("fixtures/make_project", {
   test_that("test make project works as expected", {
    p <- make_project(name="test project",description="A test project.")
     expect_type(p,"list")

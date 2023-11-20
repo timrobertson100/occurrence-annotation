@@ -1,4 +1,4 @@
-with_mock_dir("make_rule", {
+with_mock_dir("fixtures/make_rule", {
   test_that("test make rule works as expected", {
     # projectId and rulesetId can be left NULL
     r <- make_rule(taxonKey = 1, geometry = "", annotation="NATIVE")

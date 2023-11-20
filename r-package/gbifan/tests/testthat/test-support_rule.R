@@ -1,5 +1,5 @@
 test_that("test support rule works as expected", {
-  with_mock_dir("support_rule", {
+  with_mock_dir("fixtures/support_rule", {
   r <- make_rule(taxonKey=1, geometry = "WKT", annotation = "NATIVE")
   })
   s <- support_rule(id=r$id)

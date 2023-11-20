@@ -1,4 +1,4 @@
-with_mock_dir("get_project", {
+with_mock_dir("fixtures/get_project", {
   test_that("test get project works as expected", {
     p <- make_project(name="test project", description = "test project")
     pd <- get_project()

@@ -1,5 +1,5 @@
 test_that("test contest rule works as expected", {
-  with_mock_dir("contest_rule", {
+  with_mock_dir("fixtures/contest_rule", {
     r <- make_rule(taxonKey=1, geometry = "WKT", annotation = "NATIVE")
   })
   c <- contest_rule(id=r$id)

@@ -1,0 +1,47 @@
+[
+    {
+        "id": 98,
+        "projectId": 114,
+        "name": "test project",
+        "description": "test project",
+        "members": [
+            "jwaller"
+        ],
+        "created": "2023-11-17T15:31:55.439+00:00",
+        "createdBy": "jwaller",
+        "modified": null,
+        "modifiedBy": null,
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 97,
+        "projectId": 113,
+        "name": "test project",
+        "description": "test project",
+        "members": [
+            "jwaller"
+        ],
+        "created": "2023-11-17T15:31:53.165+00:00",
+        "createdBy": "jwaller",
+        "modified": null,
+        "modifiedBy": null,
+        "deleted": null,
+        "deletedBy": null
+    },
+    {
+        "id": 94,
+        "projectId": 109,
+        "name": "test ruleset",
+        "description": "test ruleset",
+        "members": [
+            "jwaller"
+        ],
+        "created": "2023-11-17T13:56:11.587+00:00",
+        "createdBy": "jwaller",
+        "modified": "2023-11-17T14:22:09.183+00:00",
+        "modifiedBy": null,
+        "deleted": null,
+        "deletedBy": null
+    }
+]

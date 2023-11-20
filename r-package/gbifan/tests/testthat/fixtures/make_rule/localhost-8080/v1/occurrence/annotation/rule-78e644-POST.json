@@ -1,0 +1,19 @@
+{
+    "id": 83,
+    "taxonKey": 1,
+    "datasetKey": null,
+    "geometry": "",
+    "annotation": "NATIVE",
+    "rulesetId": null,
+    "projectId": null,
+    "supportedBy": [
+
+    ],
+    "contestedBy": [
+
+    ],
+    "created": "2023-11-17T15:31:56.715+00:00",
+    "createdBy": "jwaller",
+    "deleted": null,
+    "deletedBy": null
+}

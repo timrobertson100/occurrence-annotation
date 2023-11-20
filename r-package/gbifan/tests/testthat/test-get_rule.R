@@ -1,4 +1,4 @@
-with_mock_dir("get_rule", {
+with_mock_dir("fixtures/get_rule", {
   test_that("test make rule works as expected", {
     p <- make_project(name="test project", description = "test project")
     rs <- make_ruleset(projectId=p$id,name="test project", description = "test project")

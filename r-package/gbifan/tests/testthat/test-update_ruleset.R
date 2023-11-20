@@ -1,5 +1,5 @@
 test_that("test update ruleset works as expected", {
-  with_mock_dir("update_ruleset", {
+  with_mock_dir("fixtures/update_ruleset", {
     p <- make_project(name="test project",description = "test project")
     rs <- make_ruleset(projectId=p$id, name="test ruleset", description = "test ruleset")
   })

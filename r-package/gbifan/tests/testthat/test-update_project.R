@@ -1,5 +1,5 @@
 test_that("test update project works as expected", {
-  with_mock_dir("update_project", {
+  with_mock_dir("fixtures/update_project", {
   p <- make_project(name="test project",description = "test project")
   })
 

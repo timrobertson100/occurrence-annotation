@@ -1,4 +1,4 @@
-with_mock_dir("get_ruleset", {
+with_mock_dir("fixtures/get_ruleset", {
 test_that("Get ruleset works as expected", {
   p <- make_project(name="test project", description = "test project")
   rs <- make_ruleset(projectId=p$id,name="test project", description = "test project")
