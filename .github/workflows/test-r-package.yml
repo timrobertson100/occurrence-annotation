@@ -30,3 +30,8 @@ jobs:
       - name: Sanity check
         run: |
           PGPASSWORD=password psql -h localhost -U user annotation -c "\dt"
+          
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: 8
