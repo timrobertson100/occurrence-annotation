@@ -27,6 +27,6 @@ jobs:
         run: |
           cat backend-service/src/main/resources/setup.sql | PGPASSWORD=password psql -h localhost -U user annotation -v ON_ERROR_STOP=1
 
-      - name: Sanity check print tables
+      - name: Sanity check
         run: |
-          PGPASSWORD=password psql -h localhost -U user annotation -c "\dt"
+          PGPASSWORD=password psql -h localhost -U user annotation -c "\l"
