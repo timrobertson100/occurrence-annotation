@@ -29,4 +29,4 @@ jobs:
 
       - name: Sanity check
         run: |
-          PGPASSWORD=password psql -h localhost -U user annotation -c "\l; \c annotations; \dt"
+          PGPASSWORD=password psql -h localhost -U user annotation -c "\c annotations; \dt"
