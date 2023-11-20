@@ -25,4 +25,4 @@ jobs:
 
       - name: Execute SQL setup
         run: |
-          cat backend-service/src/main/resources/setup.sql | psql -h localhost -U user annotation -v ON_ERROR_STOP=1
+          cat backend-service/src/main/resources/setup.sql | PGPASSWORD=password psql -h localhost -U user annotation -v ON_ERROR_STOP=1
