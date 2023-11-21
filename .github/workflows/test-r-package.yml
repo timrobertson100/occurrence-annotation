@@ -11,7 +11,8 @@ jobs:
     env:
       GBIF_USER: ${{ secrets.GBIF_USER }}
       GBIF_PWD: ${{ secrets.GBIF_PWD }}
-
+      GBIFAN_URL: http://localhost:8080/v1/occurrence/annotation/
+      
     services:
       postgres:
         image: postgres:latest
@@ -61,4 +62,3 @@ jobs:
         
       - name: Navigate to R package directory
         run: cd r-package/gbifan
-        
