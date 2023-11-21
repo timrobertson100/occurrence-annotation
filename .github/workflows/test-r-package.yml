@@ -40,3 +40,7 @@ jobs:
 
       - name: Build with Maven (skipping tests)
         run: mvn -B package -DskipTests --file backend-service/pom.xml
+
+    - name: Run Spring Boot App
+        run: java -jar backend-service/target/annotation-*-SNAPSHOT.jar
+        
