@@ -33,7 +33,7 @@ jobs:
 
       - name: Sanity check
         run: |
-          PGPASSWORD=password psql -h localhost -U user annotation -c "\dt"
+          PGPASSWORD=password psql -h localhost -U postgres annotation -c "\dt"
           
       - name: Set up JDK 8
         uses: actions/setup-java@v3
