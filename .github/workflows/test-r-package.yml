@@ -52,5 +52,6 @@ jobs:
         run: |
           sleep 10
           netstat -lt
-          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" -d '{"name":"Test", "description":"test"}'
+          curl -X GET http://localhost:8080/v1/occurrence/annotation/project
+
         
