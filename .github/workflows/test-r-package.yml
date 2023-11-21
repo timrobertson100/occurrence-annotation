@@ -50,5 +50,5 @@ jobs:
 
       - name: Execute CURL command
         run: |
-          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://your-api-url/v1/occurrence/annotation/project -H "Content-Type: application/json" -d '{"name":"LegumeData.org Annotation Project", "description":"Annotation rules from the Legumedata.org group"}'
+          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" -d '{"name":"LegumeData.org Annotation Project", "description":"Annotation rules from the Legumedata.org group"}'
         
