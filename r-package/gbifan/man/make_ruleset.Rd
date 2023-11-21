@@ -4,7 +4,7 @@
 \alias{make_ruleset}
 \title{Make Ruleset}
 \usage{
-make_ruleset(projectId = "", name = "", description = "")
+make_ruleset(projectId = NULL, name = NULL, description = NULL)
 }
 \arguments{
 \item{projectId}{the id of the project the ruleset should belong to.}

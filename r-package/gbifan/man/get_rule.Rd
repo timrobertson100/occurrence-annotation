@@ -4,7 +4,7 @@
 \alias{get_rule}
 \title{Get rules}
 \usage{
-get_rule(id = NULL, ...)
+get_rule(id = NULL, limit = NULL, offset = NULL, ...)
 }
 \arguments{
 \item{...}{}
