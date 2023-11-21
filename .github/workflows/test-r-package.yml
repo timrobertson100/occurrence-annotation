@@ -37,7 +37,5 @@ jobs:
           distribution: 'adopt-openj9'
           java-version: '8'
 
-      - name: Compile and Run Java
-        run: |
-          javac HelloWorldApp.java
-          java HelloWorldApp
+      - name: Build with Maven (skipping tests)
+        run: mvn -B package -DskipTests --file backend-service/pom.xml
