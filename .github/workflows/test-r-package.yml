@@ -54,4 +54,6 @@ jobs:
           netstat -lt
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
+      - name: Display nohup output
+        run: cat spring_boot.log
         
