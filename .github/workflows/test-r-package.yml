@@ -51,9 +51,10 @@ jobs:
       - name: Execute CURL command
         run: |
           sleep 10
-          netstat -lt
+          curl -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
+          sleep 5
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
-      - name: Display nohup output
+      - name: Display spring boot nohup output
         run: cat spring_boot.log
         
