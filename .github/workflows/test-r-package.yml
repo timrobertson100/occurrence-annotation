@@ -42,4 +42,5 @@ jobs:
         run: mvn -B package -DskipTests --file backend-service/pom.xml
 
       - name: Run Spring Boot App
-        run: java -jar backend-service/target/annotation-*-SNAPSHOT.jar
+        run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
+
