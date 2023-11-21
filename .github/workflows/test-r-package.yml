@@ -36,6 +36,7 @@ jobs:
         with:
           distribution: 'adopt-openj9'
           java-version: '8'
+          cache: 'maven'
 
       - name: Build with Maven (skipping tests)
         run: mvn -B package -DskipTests --file backend-service/pom.xml
