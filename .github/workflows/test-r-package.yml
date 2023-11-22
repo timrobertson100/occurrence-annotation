@@ -74,6 +74,7 @@ jobs:
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
         shell: Rscript {0}
+
       - name: Install package dependencies
         run: |
           pak::local_install_dev_deps()
