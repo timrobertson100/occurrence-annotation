@@ -63,36 +63,14 @@ jobs:
         run: |
           Rscript -e 'cat("Hello, World!\n")'
 
-#      - name: Cache R packages
-#        uses: actions/cache@v3
-#        with:
-#          path: ${{ env.R_LIBS_USER }}
-#          key: ${{ runner.os }}-r-${{ hashFiles('**/renv.lock') }}
-#          restore-keys: ${{ runner.os }}-r-
-#
-#      - name: Install renv and restore packages
-#        run: |
-#          setwd("r-package/gbifan")
-#          install.packages("renv")
-#          renv::restore()
-#        shell: Rscript {0}
-#
-      - name: Install pak and devtools
-        run: |
-          install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
-          install.packages("devtools")
-        shell: Rscript {0}
-
       - name: Install R package dependencies
         run: |
           pak::local_install_dev_deps(root="r-package/gbifan")
           pak::pkg_install(c("dplyr","purrr","httr2","httptest2"))
         shell: Rscript {0}
 
-      - name: Run R tests
-        run: |
-          Rscript -e 'devtools::test(reporter = "summary")' > test_output.txt
-          cat test_output.txt
+      - name: Test R package
+        run: R CMD check r-package/gbifan
 
       - name: Display spring boot nohup output
         run: cat spring_boot.log
