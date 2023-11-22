@@ -63,20 +63,20 @@ jobs:
         run: |
           Rscript -e 'cat("Hello, World!\n")'
 
-      - name: Cache R packages
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-r-${{ hashFiles('**/renv.lock') }}
-          restore-keys: ${{ runner.os }}-r-
-
-      - name: Install renv and restore packages
-        run: |
-          setwd("r-package/gbifan")
-          install.packages("renv")
-          renv::restore()
-        shell: Rscript {0}
-
+#      - name: Cache R packages
+#        uses: actions/cache@v3
+#        with:
+#          path: ${{ env.R_LIBS_USER }}
+#          key: ${{ runner.os }}-r-${{ hashFiles('**/renv.lock') }}
+#          restore-keys: ${{ runner.os }}-r-
+#
+#      - name: Install renv and restore packages
+#        run: |
+#          setwd("r-package/gbifan")
+#          install.packages("renv")
+#          renv::restore()
+#        shell: Rscript {0}
+#
       - name: Install pak and devtools
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
