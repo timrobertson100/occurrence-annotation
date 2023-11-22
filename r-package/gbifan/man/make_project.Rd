@@ -17,3 +17,8 @@ The projectId of the project.
 \description{
 Make Project
 }
+\examples{
+\dontrun{
+make_project("Example project","An example Project")
+}
+}

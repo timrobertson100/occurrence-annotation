@@ -15,3 +15,8 @@ list of information about deleted ruleset
 \description{
 Delete a ruleset
 }
+\examples{
+\dontrun{
+delete_ruleset(1)
+}
+}

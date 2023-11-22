@@ -24,3 +24,8 @@ Make a rule
 \details{
 Annotation needs to be part of controlled vocab.
 }
+\examples{
+\dontrun{
+make_rule(1,geometry="POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", annotation="NATIVE")
+}
+}

@@ -15,6 +15,14 @@ get_ruleset(id = NULL, projectId = NULL, limit = NULL, offset = NULL)
 
 \item{offset}{number of records to return on page.}
 }
+\value{
+a `tibble`.
+}
 \description{
 Get a ruleset.
+}
+\examples{
+\dontrun{
+get_ruleset(1,1)
+}
 }

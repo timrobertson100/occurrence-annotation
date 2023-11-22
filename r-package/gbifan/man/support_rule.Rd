@@ -15,3 +15,8 @@ A `list` information about the rule supported.
 \description{
 Support a rule
 }
+\examples{
+\dontrun{
+support_rule(1)
+}
+}

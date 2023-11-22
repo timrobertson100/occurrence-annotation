@@ -15,3 +15,8 @@ A `list` information about the rule contested.
 \description{
 Remove contest of a rule
 }
+\examples{
+\dontrun{
+rm_contest_rule(1)
+}
+}

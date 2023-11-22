@@ -15,3 +15,8 @@ A `list` information about the rule supported.
 \description{
 Remove support for a rule
 }
+\examples{
+\dontrun{
+rm_support_rule(1)
+}
+}

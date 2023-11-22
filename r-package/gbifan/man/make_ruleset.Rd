@@ -19,3 +19,8 @@ The rulesetId and projectId of the ruleset as a list.
 \description{
 Make Ruleset
 }
+\examples{
+\dontrun{
+make_ruleset(1,"Name of project","Example description")
+}
+}

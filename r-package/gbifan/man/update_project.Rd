@@ -39,3 +39,8 @@ Update a project
 Update a project. If fields are left `NULL`, then they will not be updated. 
 If `keep_memebers=TRUE`, new members are added to the list of old members.
 }
+\examples{
+\dontrun{
+update_project(1,name="New name")
+}
+}
