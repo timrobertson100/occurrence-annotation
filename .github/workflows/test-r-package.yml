@@ -67,19 +67,24 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
+          key: ${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ hashFiles('.github/R-version') }}-2-
 
       - name: Install pak
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
         shell: Rscript {0}
 
-      - name: Install package dependencies
+      - name: Install R package dependencies
         run: |
           pak::local_install_dev_deps(root="r-package/gbifan")
-          pak::pkg_install(c("dplyr","purrr", "httr2","httptest2","testthat","vcr"))
+          pak::pkg_install(c("dplyr","purrr","httr2","httptest2"))
         shell: Rscript {0}
+
+      - name: Run R tests
+        run: |
+          Rscript -e 'devtools::test(reporter = "summary")' > test_output.txt
+          cat test_output.txt
 
       - name: Display spring boot nohup output
         run: cat spring_boot.log
