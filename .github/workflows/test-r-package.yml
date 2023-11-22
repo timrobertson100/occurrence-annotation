@@ -77,7 +77,7 @@ jobs:
 
       - name: Install package dependencies
         run: |
-          pak::local_install_dev_deps()
+          pak::local_install_dev_deps(path="r-package/gbifan")
           pak::pkg_install(c("dplyr","purrr", "httr2","httptest2","testthat","vcr"))
         shell: Rscript {0}
 
