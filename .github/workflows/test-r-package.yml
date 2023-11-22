@@ -58,9 +58,7 @@ jobs:
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
       - name: Set up R and dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          working-directory: r-package/gbifan
+        uses: r-lib/actions/setup-r@v2
 
       - name: Run R Hello World
         run: |
