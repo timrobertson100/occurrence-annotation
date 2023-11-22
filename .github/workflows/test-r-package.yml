@@ -75,10 +75,10 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-      - name: Install R packages
-        run: |
-          install.packages(c("dplyr","purrr","httr2","httptest2"))
-        shell: Rscript {0}
+#      - name: Install R packages
+#        run: |
+#          install.packages(c("dplyr","purrr","httr2","httptest2"))
+#        shell: Rscript {0}
 
       - name: Test R package
         run: R CMD check r-package/gbifan
