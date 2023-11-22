@@ -57,13 +57,19 @@ jobs:
           sleep 5
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
-      - name: Display spring boot nohup output
-        run: cat spring_boot.log
-
       - name: Set up R and dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
-          working-directory: r-package/gbifan
 
+      - name: Run R command
+        run: |
+          Rscript -e 'cat("Hello, World!\n")'
+
+#      - name: Install dependencies Linux
+#        if: runner.os == 'Linux'
+#        run: |
+#          pak::local_install_dev_deps()
+#          pak::pkg_install(c("sf","rcmdcheck", "maps", "scales", "colorspace", "terra", "magick", "protolite"))
+#        shell: Rscript {0}
+
+      - name: Display spring boot nohup output
+        run: cat spring_boot.log
