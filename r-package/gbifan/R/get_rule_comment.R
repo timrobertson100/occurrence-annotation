@@ -6,6 +6,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' get_rule_comment(1)
+#' }
 get_rule_comment <- function(id=NULL) {
   if(is.null(id)) stop("must supply a rule id.")
   url <- paste0(gbifan_url("rule/"),id,"/comment")
@@ -22,12 +25,12 @@ get_rule_comment <- function(id=NULL) {
                    tidyr::pivot_wider(names_from="name",values_from="value")
       ) |>
       dplyr::bind_rows() |>
-      tidyr::unnest(cols=c(id,
-                           ruleId,
-                           comment,
-                           created,
-                           createdBy,
-                           deleted,
-                           deletedBy))
+      tidyr::unnest(cols=c("id",
+                           "ruleId",
+                           "comment",
+                           "created",
+                           "createdBy",
+                           "deleted",
+                           "deletedBy"))
   }
 }

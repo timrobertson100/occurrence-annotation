@@ -2,6 +2,7 @@
 #'
 #' @param id of ruleset. 
 #' @param name new name of ruleset. 
+#' @param projectId id of project ruleset belongs. 
 #' @param description new description of ruleset. 
 #' @param members new members of ruleset. If `keep_members=TRUE`, then new will be added to old members.
 #' @param deleted logical should the ruleset be deleted or restored. 
@@ -13,6 +14,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' update_ruleset(1,1,name="new name")
+#' }
 update_ruleset <- function(id=NULL,
                            projectId=NULL,
                            name=NULL,

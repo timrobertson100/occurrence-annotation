@@ -10,6 +10,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' make_ruleset(1,"Name of project","Example description")
+#' }
 make_ruleset = function(projectId = NULL, name = NULL, description = NULL) {
   
   if(is.null(name)) stop("Please provide a name for the ruleset.")

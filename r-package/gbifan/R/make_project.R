@@ -9,6 +9,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' make_project("Example project","An example Project")
+#' }
 make_project = function(name = NULL, description = NULL) {
   url <- gbifan_url("project") 
   

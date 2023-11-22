@@ -1,11 +1,17 @@
 #' Get rules
 #'
-#' @param ... 
+#' @param id rule id.
+#' @param limit page start.
+#' @param offset number of records to return on page. 
+#' @param ... Additional args passed to query. 
 #'
 #' @return a tibble of rules 
 #' @export
 #'
-#' @examples
+#' @examples 
+#' \dontrun{
+#' get_rule()
+#' }
 get_rule <- function(id=NULL,limit=NULL,offset=NULL,...) {
   
   if(is.null(id)) {
@@ -21,17 +27,17 @@ get_rule <- function(id=NULL,limit=NULL,offset=NULL,...) {
     tibble::tibble()
   } else {
     r |> 
-    tidyr::unnest(cols = c(id, 
-                           taxonKey, 
-                           datasetKey, 
-                           geometry, 
-                           annotation, 
-                           rulesetId, 
-                           projectId,
-                           created, 
-                           createdBy, 
-                           deleted, 
-                           deletedBy))
+    tidyr::unnest(cols = c("id", 
+                           "taxonKey", 
+                           "datasetKey", 
+                           "geometry", 
+                           "annotation", 
+                           "rulesetId", 
+                           "projectId",
+                           "created", 
+                           "createdBy", 
+                           "deleted", 
+                           "deletedBy"))
   }
   
 }

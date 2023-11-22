@@ -7,6 +7,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' add_project_member(1,"JOHN")
+#' }
 add_project_member <- function(id=NULL,new_member=NULL) {
   
   members <- get_project(id)$members 

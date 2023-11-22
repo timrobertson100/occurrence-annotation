@@ -1,20 +1,22 @@
 Package: gbifan
 Type: Package
-Title: What the Package Does (Title Case)
+Title: R interface to GBIF rule base annotations store
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("John", "Waller", email = "jwaller@gbif.org", role = c("aut", "cre"))
+Description: Provides R functions to facilitate interaction with the GBIF
+  (Global Biodiversity Information Facility) rule-based annotation store. The
+  package allows users to access, retrieve, and manage data utilizing the
+  annotation store's data for analysis.
 Encoding: UTF-8
-LazyData: true
-Imports: 
+Imports:
+  tibble,
+  tidyr,
   dplyr,
   purrr,
   httr2
 Suggests: 
     httptest2,
-    testthat (>= 3.0.0),
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
+License: Apache License (>= 2)
