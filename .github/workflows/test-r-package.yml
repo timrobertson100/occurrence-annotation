@@ -49,7 +49,6 @@ jobs:
       - name: Run Spring Boot App
         run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
 
-      # needs to be off of dev to continue this approach
       - name: Execute CURL command
         run: |
           sleep 10
@@ -57,19 +56,29 @@ jobs:
           sleep 5
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
-      - name: Set up R and dependencies
+      - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
       - name: Run R Hello World
         run: |
           Rscript -e 'cat("Hello, World!\n")'
 
-#      - name: Install dependencies Linux
-#        if: runner.os == 'Linux'
-#        run: |
-#          pak::local_install_dev_deps()
-#          pak::pkg_install(c("sf","rcmdcheck", "maps", "scales", "colorspace", "terra", "magick", "protolite"))
-#        shell: Rscript {0}
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-2-
+
+      - name: Install pak
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
+        shell: Rscript {0}
+      - name: Install package dependencies
+        run: |
+          pak::local_install_dev_deps()
+          pak::pkg_install(c("dplyr","purrr", "httr2","httptest2","testthat","vcr"))
+        shell: Rscript {0}
 
       - name: Display spring boot nohup output
         run: cat spring_boot.log
