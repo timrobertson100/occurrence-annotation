@@ -63,7 +63,13 @@ jobs:
         run: |
           Rscript -e 'cat("Hello, World!\n")'
 
-      - name: Install R package dependencies
+      - name: Install package dependencies (remotes)
+        run: |
+          install.packages("remotes")
+          remotes::install_deps(dependencies = TRUE, subdir = "r-package/gbifan")
+        shell: Rscript {0}
+
+      - name: Install R packages
         run: |
           install.packages(c("dplyr","purrr","httr2","httptest2"))
         shell: Rscript {0}
