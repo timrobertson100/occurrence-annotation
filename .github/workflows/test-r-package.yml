@@ -59,8 +59,10 @@ jobs:
 
       - name: Set up R and dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: r-package/gbifan
 
-      - name: Run R command
+      - name: Run R Hello World
         run: |
           Rscript -e 'cat("Hello, World!\n")'
 
