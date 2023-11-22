@@ -65,8 +65,10 @@ jobs:
 
       - name: Install package dependencies (remotes)
         run: |
+          list.files()
+          setwd("r-package/gbifan")
           install.packages("remotes")
-          remotes::install_deps(dependencies = TRUE, subdir = "r-package/gbifan")
+          remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Install R packages
