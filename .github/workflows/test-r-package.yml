@@ -73,7 +73,8 @@ jobs:
       - name: Install renv and restore packages
         run: |
           install.packages("renv")
-          Rscript -e 'renv::restore()
+          renv::restore()
+        shell: Rscript {0}
 
       - name: Install pak and devtools
         run: |
