@@ -67,12 +67,18 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ hashFiles('.github/R-version') }}-2-
+          key: ${{ runner.os }}-r-${{ hashFiles('**/renv.lock') }}
+          restore-keys: ${{ runner.os }}-r-
 
-      - name: Install pak
+      - name: Install renv and restore packages
+        run: |
+          install.packages("renv")
+          Rscript -e 'renv::restore()'
+
+      - name: Install pak and devtools
         run: |
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
+          install.packages("devtools")
         shell: Rscript {0}
 
       - name: Install R package dependencies

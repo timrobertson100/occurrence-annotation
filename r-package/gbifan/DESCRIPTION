@@ -14,9 +14,7 @@ Imports:
   purrr,
   httr2
 Suggests: 
-    httptest,
     httptest2,
     testthat (>= 3.0.0),
-    vcr (>= 0.6.0)
 Config/testthat/edition: 3
 RoxygenNote: 7.2.3
