@@ -2,7 +2,7 @@ name: Test r package
 
 on:
   push:
-    branches: [ fake-branch ] # don't run this for a bit
+    branches: [ actions ] # don't run this for a bit
 
 jobs:
   build:
