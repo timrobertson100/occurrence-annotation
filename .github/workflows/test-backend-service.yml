@@ -2,7 +2,7 @@ name: Test backend service
 
 on:
   push:
-    branches: [ ] # skip for now not working
+    branches: [ fake-branch ] # skip for now not working
 
 jobs:
   build:
