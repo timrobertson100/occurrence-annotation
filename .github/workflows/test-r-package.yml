@@ -44,8 +44,7 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven (skipping tests)
-        run: mvn -B package --file backend-service/pom.xml
-#        run: mvn -B package -DskipTests --file backend-service/pom.xml
+        run: mvn -B package -DskipTests --file backend-service/pom.xml
 
       - name: Run Spring Boot App
         run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
