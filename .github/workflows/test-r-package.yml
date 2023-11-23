@@ -44,7 +44,8 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven (skipping tests)
-        run: mvn -B package -DskipTests --file backend-service/pom.xml
+        run: mvn -B package --file backend-service/pom.xml
+#        run: mvn -B package -DskipTests --file backend-service/pom.xml
 
       - name: Run Spring Boot App
         run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
@@ -56,12 +57,13 @@ jobs:
           sleep 5
           curl -X GET http://localhost:8080/v1/occurrence/annotation/project
 
-      - name: Install libcurl and Tex Live
+      - name: Install libcurl and Others
         run: |
           sudo apt-get update 
           sudo apt-get install -y libcurl4-openssl-dev
           sudo apt-get install -y texlive
-          
+          sudo apt-get install texlive-fonts-extra
+
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
 
@@ -76,11 +78,6 @@ jobs:
           install.packages("remotes")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-
-#      - name: Install R packages
-#        run: |
-#          install.packages(c("dplyr","purrr","httr2","httptest2"))
-#        shell: Rscript {0}
 
       - name: Test R package
         run: R CMD check r-package/gbifan
