@@ -18,6 +18,8 @@ update_ruleset(
 \arguments{
 \item{id}{of ruleset.}
 
+\item{projectId}{id of project ruleset belongs.}
+
 \item{name}{new name of ruleset.}
 
 \item{description}{new description of ruleset.}
@@ -35,4 +37,9 @@ A `list` of an updated ruleset.
 }
 \description{
 Update a ruleset
+}
+\examples{
+\dontrun{
+update_ruleset(1,1,name="new name")
+}
 }

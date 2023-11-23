@@ -15,3 +15,8 @@ list of information about deleted project
 \description{
 Delete a project
 }
+\examples{
+\dontrun{
+delete_project(1)
+}
+}

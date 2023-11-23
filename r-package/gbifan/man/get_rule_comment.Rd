@@ -15,3 +15,8 @@ a `tibble` of comments.
 \description{
 Get comments on rule
 }
+\examples{
+\dontrun{
+get_rule_comment(1)
+}
+}

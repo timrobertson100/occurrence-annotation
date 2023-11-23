@@ -17,3 +17,8 @@ A `list` of project information.
 \description{
 Add a new member to a project
 }
+\examples{
+\dontrun{
+add_project_member(1,"JOHN")
+}
+}

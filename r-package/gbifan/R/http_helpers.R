@@ -1,3 +1,7 @@
+#' gbifan_post
+#' @param url helper
+#' @param body helper
+#' @keywords internal
 gbifan_post <- function(url,body) {
   httr2::request(url) |>
     httr2::req_method("POST") |>
@@ -8,7 +12,9 @@ gbifan_post <- function(url,body) {
     httr2::resp_body_json() 
 }
 
-
+#' gbifan_delete
+#' @param url helper
+#' @keywords internal
 gbifan_delete <- function(url) {
  httr2::request(url) |>
   httr2::req_method("DELETE") |>
@@ -18,6 +24,10 @@ gbifan_delete <- function(url) {
   httr2::resp_body_json() 
 }
 
+#' gbifan_get
+#' @param url helper
+#' @param query helper 
+#' @keywords internal
 gbifan_get <- function(url,query) {  
 
 httr2::request(url) |>
@@ -32,6 +42,10 @@ httr2::request(url) |>
    dplyr::bind_rows()   
 }
 
+#' gbifan_put
+#' @param url helper
+#' @param body helper 
+#' @keywords internal
 gbifan_put <- function(url,body) {
   httr2::request(url) |>
     httr2::req_method("PUT") |>
@@ -42,7 +56,10 @@ gbifan_put <- function(url,body) {
     httr2::resp_body_json()
 }
 
-# get with no post processing
+#' gbifan_get_
+#' @param url helper
+#' @param query helper
+#' @keywords internal
 gbifan_get_ <- function(url,query) {  
   
   httr2::request(url) |>
@@ -51,6 +68,9 @@ gbifan_get_ <- function(url,query) {
     httr2::resp_body_json() 
 }
 
+#' gbifan_get_id
+#' @param url helper
+#' @keywords internal
 gbifan_get_id <- function(url) {  
   
   httr2::request(url) |>
@@ -60,6 +80,9 @@ gbifan_get_id <- function(url) {
     tidyr::pivot_wider(names_from="name",values_from = "value") 
 }
 
+#' gbifan_get_id_
+#' @param url helper
+#' @keywords internal
 gbifan_get_id_ <- function(url) {  
   
   httr2::request(url) |>
@@ -68,9 +91,9 @@ gbifan_get_id_ <- function(url) {
   
 }
 
-
-
-gbif_base = function() {
+#' gbif_base
+#' @keywords internal
+gbif_base <- function() {
   # overide with environmental vairable for local development 
   if(Sys.getenv("GBIFAN_URL") == "") {
     
@@ -82,6 +105,12 @@ gbif_base = function() {
   url
 }
 
+#' gbifan_body
+#' @param ... helper
+#' @keywords internal
 gbifan_body <- function(...) list(...) |> purrr::compact() |> purrr::flatten()
 
+#' gbifan_url 
+#' @param x helper
+#' @keywords internal
 gbifan_url <- function(x) paste0(gbif_base(),x)

@@ -4,7 +4,7 @@
 \alias{make_ruleset}
 \title{Make Ruleset}
 \usage{
-make_ruleset(projectId = "", name = "", description = "")
+make_ruleset(projectId = NULL, name = NULL, description = NULL)
 }
 \arguments{
 \item{projectId}{the id of the project the ruleset should belong to.}
@@ -18,4 +18,9 @@ The rulesetId and projectId of the ruleset as a list.
 }
 \description{
 Make Ruleset
+}
+\examples{
+\dontrun{
+make_ruleset(1,"Name of project","Example description")
+}
 }

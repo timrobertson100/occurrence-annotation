@@ -15,3 +15,8 @@ list of information about deleted rule.
 \description{
 Delete a rule
 }
+\examples{
+\dontrun{
+delete_rule(1)
+}
+}

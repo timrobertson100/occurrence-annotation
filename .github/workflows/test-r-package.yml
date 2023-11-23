@@ -1,0 +1,87 @@
+name: Test r package
+
+on:
+  push:
+    branches:
+      - main
+      - actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      GBIF_USER: ${{ secrets.GBIF_USER }}
+      GBIF_PWD: ${{ secrets.GBIF_PWD }}
+      GBIFAN_URL: http://localhost:8080/v1/occurrence/annotation/
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: annotation  # Set the database name to "annotation"
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Execute SQL setup
+        run: |
+          cat backend-service/src/main/resources/schema.sql | PGPASSWORD=password psql -h localhost -U postgres annotation -v ON_ERROR_STOP=1
+
+      - name: Sanity check
+        run: |
+          PGPASSWORD=password psql -h localhost -U postgres annotation -c "\dt"
+          
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt-openj9'
+          java-version: '8'
+          cache: 'maven'
+
+      - name: Build with Maven (with tests)
+        run: mvn -B package --file backend-service/pom.xml
+
+      - name: Run Spring Boot App
+        run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
+
+      - name: Execute CURL command
+        run: |
+          sleep 10
+          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
+          sleep 5
+          curl -X GET http://localhost:8080/v1/occurrence/annotation/project
+
+      - name: Install libcurl and Others
+        run: |
+          sudo apt-get update 
+          sudo apt-get install -y libcurl4-openssl-dev
+          sudo apt-get install -y texlive
+          sudo apt-get install texlive-fonts-extra
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Run R Hello World
+        run: |
+          Rscript -e 'cat("Hello, World!\n")'
+
+      - name: Install package dependencies (remotes)
+        run: |
+          list.files()
+          setwd("r-package/gbifan")
+          install.packages("remotes")
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+
+      - name: Test R package
+        run: R CMD check r-package/gbifan
+
+      - name: Display spring boot nohup output
+        run: cat spring_boot.log

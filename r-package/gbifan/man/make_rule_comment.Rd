@@ -7,10 +7,18 @@
 make_rule_comment(id = NULL, comment = NULL)
 }
 \arguments{
-\item{comment}{comment.}
+\item{id}{id of the rule you want to leave a comment on.}
 
-\item{ruleId}{id of the rule you want to leave a comment on.}
+\item{comment}{comment.}
+}
+\value{
+A `tibble`.
 }
 \description{
 Make a comment on rule.
+}
+\examples{
+\dontrun{
+make_rule_comment(1,"comment")
+}
 }

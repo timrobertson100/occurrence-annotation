@@ -5,10 +5,13 @@
 #' @param limit page start.
 #' @param offset number of records to return on page. 
 #'
-#' @return
+#' @return a `tibble`. 
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' get_ruleset(1,1)
+#' }
 get_ruleset <- function(id=NULL,projectId=NULL,limit=NULL,offset=NULL) {
   if(is.null(id)) { 
     url <- gbifan_url("ruleset")
@@ -28,15 +31,15 @@ get_ruleset <- function(id=NULL,projectId=NULL,limit=NULL,offset=NULL) {
     tibble::tibble()
   } else {
   r |>
-    tidyr::unnest(cols = c(id,
-                           name,
-                           description,
-                           projectId,
-                           created,
-                           createdBy,
-                           modified,
-                           modifiedBy,
-                           deleted,
-                           deletedBy))
+    tidyr::unnest(cols = c("id",
+                           "name",
+                           "description",
+                           "projectId",
+                           "created",
+                           "createdBy",
+                           "modified",
+                           "modifiedBy",
+                           "deleted",
+                           "deletedBy"))
   }
 }

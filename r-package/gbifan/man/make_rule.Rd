@@ -4,17 +4,28 @@
 \alias{make_rule}
 \title{Make a rule}
 \usage{
-make_rule(...)
+make_rule(taxonKey = NULL, geometry = NULL, annotation = NULL, ...)
 }
 \arguments{
+\item{taxonKey}{GBIF taxonKey for which rule applies to.}
+
+\item{geometry}{WKT text of the rule.}
+
+\item{annotation}{One of the controlled vocabulary.}
+
 \item{...}{A named list of parameters (geometry and annotation required).}
 }
 \value{
-A list of information about the rule.
+A `list` of information about the rule.
 }
 \description{
 Make a rule
 }
 \details{
 Annotation needs to be part of controlled vocab.
+}
+\examples{
+\dontrun{
+make_rule(1,geometry="POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", annotation="NATIVE")
+}
 }

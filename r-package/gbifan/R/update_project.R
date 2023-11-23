@@ -14,9 +14,12 @@
 #' Update a project. If fields are left `NULL`, then they will not be updated. 
 #' If `keep_memebers=TRUE`, new members are added to the list of old members. 
 #' 
-#' @export
+#' @export  
 #'
 #' @examples
+#' \dontrun{
+#' update_project(1,name="New name")
+#' }
 update_project <- function(id=NULL,
                           name=NULL,
                           description=NULL,

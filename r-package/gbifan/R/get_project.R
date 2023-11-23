@@ -8,6 +8,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
+#' get_project()
+#' }
 get_project <- function(id=NULL,offset=NULL,limit=NULL) {
   
   if(is.null(id)) { 
@@ -25,14 +28,14 @@ get_project <- function(id=NULL,offset=NULL,limit=NULL) {
     r <- gbifan_get_id(url)
   }
   r |> 
-    tidyr::unnest(cols = c(id, 
-                           name, 
-                           description,
-                           created, 
-                           createdBy,
-                           modified,
-                           modifiedBy,
-                           deleted, 
-                           deletedBy))
+    tidyr::unnest(cols = c("id", 
+                           "name", 
+                           "description",
+                           "created", 
+                           "createdBy",
+                           "modified",
+                           "modifiedBy",
+                           "deleted", 
+                           "deletedBy"))
   
 }

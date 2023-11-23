@@ -19,3 +19,8 @@ a `tibble`.
 \description{
 Get a project
 }
+\examples{
+\dontrun{
+get_project()
+}
+}

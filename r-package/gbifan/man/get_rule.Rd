@@ -4,14 +4,25 @@
 \alias{get_rule}
 \title{Get rules}
 \usage{
-get_rule(id = NULL, ...)
+get_rule(id = NULL, limit = NULL, offset = NULL, ...)
 }
 \arguments{
-\item{...}{}
+\item{id}{rule id.}
+
+\item{limit}{page start.}
+
+\item{offset}{number of records to return on page.}
+
+\item{...}{Additional args passed to query.}
 }
 \value{
 a tibble of rules
 }
 \description{
 Get rules
+}
+\examples{
+\dontrun{
+get_rule()
+}
 }
