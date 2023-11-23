@@ -28,10 +28,6 @@ jobs:
       - name: Check if Docker is running
         run: docker --version
 
-      - name: Download JUnit Platform Console Standalone JAR
-        run: |
-          wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar -O junit-platform-console-standalone.jar
-
         # currently doesn't work
       - name: Build with Maven (with tests)
         run: mvn -B package --file backend-service/pom.xml
