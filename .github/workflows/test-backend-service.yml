@@ -35,9 +35,9 @@ jobs:
       - name: Run JUnit Tests
         run: |
           java -jar junit-platform-console-standalone.jar \
-            --class-path backend-service/src/test/* \
+            --class-path backend-service/src/test/org/gbif/occurrence/annotation/ \
             --scan-class-path
-          
+
 #      - name: Build with Maven (with tests)
 #        run: mvn -B package --file backend-service/pom.xml
 #
