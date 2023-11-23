@@ -12,7 +12,7 @@ jobs:
       docker:
         image: docker:latest
         options: --privileged  # Enables Docker-in-Docker
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,8 +23,7 @@ jobs:
           distribution: 'adopt-openj9'
           java-version: '8'
           cache: 'maven'
-
-    steps:
+        
       - name: Check if Docker is running
         run: docker --version
 
