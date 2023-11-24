@@ -32,19 +32,6 @@ https://github.com/jhnwllr/doc-rule-based-annotations/blob/main/index.adoc
 
 ## Build and run locally 
 
-Add the following to your `.m2/settings.xml` file.
-
-```xml
-<mirrors>
-  <mirror>
-    <id>gbif-public-mirror</id>
-    <mirrorOf>*,!gbif-all,!gbif-mirror,!gbif-thirdparty</mirrorOf>
-    <name>GBIF mirror of public repositories</name>
-    <url>https://repository.gbif.org/content/groups/public/</url>
-  </mirror>
-</mirrors>
-```
-
 You might also need to have a running `postgres` instance with a database named "annotation". 
 
 ```shell 
