@@ -165,6 +165,10 @@
 						<goals>
 							<goal>repackage</goal>
 						</goals>
+            <configuration>
+              <attach>true</attach>
+              <classifier>exec</classifier>
+            </configuration>
 					</execution>
 					<execution>
 						<id>build-info</id>
