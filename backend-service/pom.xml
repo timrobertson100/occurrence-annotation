@@ -30,6 +30,8 @@
 		<postgresql.version>42.6.0</postgresql.version>
 		<junit.version>5.10.0</junit.version>
 		<testcontainers.postgresql.version>1.19.0</testcontainers.postgresql.version>
+    <logback.version>1.1.5</logback.version>
+    <logstash-encoder.version>4.6</logstash-encoder.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -156,14 +158,17 @@
     <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
+      <version>${logstash-encoder.version}</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
     </dependency>
 
 	</dependencies>
