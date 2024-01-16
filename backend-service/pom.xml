@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>org.gbif.occurrence</groupId>
-	<artifactId>annotation</artifactId>
+	<artifactId>occurrence-annotation-ws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>annotation</name>
 	<description>Webservice for dealing with annotation rules</description>
