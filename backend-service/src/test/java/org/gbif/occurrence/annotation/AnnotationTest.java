@@ -61,7 +61,7 @@ import static org.junit.Assert.fail;
  * embedded postgres container.
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest()
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = {AnnotationTest.ContextInitializer.class})
 class AnnotationTest {
   @RegisterExtension protected static EmbeddedPostgres pgContainer = new EmbeddedPostgres();

@@ -32,8 +32,9 @@
     <postgresql.version>42.6.0</postgresql.version>
     <junit.version>5.10.0</junit.version>
     <testcontainers.postgresql.version>1.19.0</testcontainers.postgresql.version>
-    <logback.version>1.1.5</logback.version>
-    <logstash-encoder.version>4.6</logstash-encoder.version>
+    <logback.version>1.2.3</logback.version>
+    <logstash-encoder.version>5.3</logstash-encoder.version>
+    <slf4j.version>1.7.30</slf4j.version>
 
     <start-class>org.gbif.occurrence.annotation.Application</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -137,6 +138,12 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <version>${spring-boot.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -197,9 +204,20 @@
       <groupId>org.apache.zookeeper</groupId>
       <artifactId>zookeeper</artifactId>
       <version>${zookeeper.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
     <dependency>
       <groupId>net.logstash.logback</groupId>
       <artifactId>logstash-logback-encoder</artifactId>
