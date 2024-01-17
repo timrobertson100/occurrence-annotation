@@ -34,7 +34,7 @@ import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreator
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/occurrence/annotation/project")
+@RequestMapping("/occurrence/experimental/annotation/project")
 public class ProjectController implements Controller<Project> {
   @Autowired private ProjectMapper projectMapper;
   @Autowired private RulesetMapper rulesetMapper;
