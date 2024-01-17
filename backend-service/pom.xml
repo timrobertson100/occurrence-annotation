@@ -27,7 +27,6 @@
     <mybatis.spring.boot.starter>2.1.3</mybatis.spring.boot.starter>
     <zookeeper.spring.boot.starter>2.2.5.RELEASE</zookeeper.spring.boot.starter>
     <zookeeper.version>3.4.14</zookeeper.version>
-    <springdoc-openapi-ui.version>1.7.0</springdoc-openapi-ui.version>
     <lombok.version>1.18.30</lombok.version>
     <postgresql.version>42.6.0</postgresql.version>
     <junit.version>5.10.0</junit.version>
@@ -36,6 +35,10 @@
     <logstash-encoder.version>5.3</logstash-encoder.version>
     <slf4j.version>1.7.30</slf4j.version>
     <spring-boot-admin.version>2.2.4</spring-boot-admin.version>
+
+    <!-- documentation -->
+    <springdoc-openapi-ui.version>1.5.8</springdoc-openapi-ui.version>
+    <swagger-annotations.version>2.2.0</swagger-annotations.version>
 
     <start-class>org.gbif.occurrence.annotation.Application</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,11 +104,19 @@
       <artifactId>spring-cloud-context</artifactId>
       <version>${spring-cloud-commons.version}</version>
     </dependency>
+
+    <!-- documentation -->
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>${springdoc-openapi-ui.version}</version>
     </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger-annotations.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-common-ws</artifactId>
