@@ -46,10 +46,12 @@ jobs:
           cache: 'maven'
 
       - name: Build and run Spring Boot App
-        run: nohup mvn spring-boot:run > spring_boot.log 2>&1 &
+        run: |
+          cd backend-service
+          nohup mvn spring-boot:run > spring_boot.log 2>&1 &
 
       - name: Execute CURL command
-        run: |
+        run: |          
           sleep 10
           curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
           sleep 5
