@@ -13,7 +13,7 @@ jobs:
     env:
       GBIF_USER: ${{ secrets.GBIF_USER }}
       GBIF_PWD: ${{ secrets.GBIF_PWD }}
-      GBIFAN_URL: http://localhost:8080/v1/occurrence/experimental/annotation/
+      GBIFAN_URL: http://localhost:8080/occurrence/experimental/annotation/
 
     services:
       postgres:
@@ -51,9 +51,9 @@ jobs:
       - name: Execute CURL command
         run: |
           sleep 10
-          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/v1/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
+          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
           sleep 5
-          curl -X GET http://localhost:8080/v1/occurrence/experimental/annotation/project
+          curl -X GET http://localhost:8080/occurrence/experimental/annotation/project
 
       - name: Install libcurl and Others
         run: |
