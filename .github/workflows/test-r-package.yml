@@ -49,7 +49,7 @@ jobs:
         run: mvn -B package --file backend-service/pom.xml
 
       - name: Run Spring Boot App
-        run: nohup java -jar backend-service/target/annotation-*-SNAPSHOT.jar > spring_boot.log 2>&1 &
+        run: nohup java -jar backend-service/target/occurrence-annotation-ws-*-SNAPSHOT-exec.jar > spring_boot.log 2>&1 &
 
       - name: Execute CURL command
         run: |
