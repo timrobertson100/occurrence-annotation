@@ -83,4 +83,4 @@ jobs:
         run: R CMD check r-package/gbifan
 
       - name: Display spring boot nohup output
-        run: cat spring_boot.log
+        run: cat backend-service/spring_boot.log
