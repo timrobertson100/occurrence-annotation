@@ -45,11 +45,8 @@ jobs:
           java-version: '8'
           cache: 'maven'
 
-      - name: Build with Maven (with tests)
-        run: mvn -B package --file backend-service/pom.xml
-
-      - name: Run Spring Boot App
-        run: nohup java -jar backend-service/target/occurrence-annotation-ws-*-SNAPSHOT-exec.jar > spring_boot.log 2>&1 &
+      - name: Build and run Spring Boot App
+        run: nohup mvn spring-boot:run > spring_boot.log 2>&1 &
 
       - name: Execute CURL command
         run: |
