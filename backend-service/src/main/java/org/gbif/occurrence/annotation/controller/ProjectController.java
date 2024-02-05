@@ -13,6 +13,8 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.gbif.occurrence.annotation.mapper.ProjectMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.mapper.RulesetMapper;
@@ -32,6 +34,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreatorOrAdmin;
 
+@Tag(name = "Occurrence annotation projects")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/occurrence/experimental/annotation/project")
