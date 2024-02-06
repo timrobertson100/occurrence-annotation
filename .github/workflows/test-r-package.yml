@@ -52,9 +52,9 @@ jobs:
 
       - name: Execute CURL command
         run: |          
-          sleep 25
+          sleep 45
           curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
-          sleep 5
+          sleep 10
           curl -X GET http://localhost:8080/occurrence/experimental/annotation/project
 
       - name: Install libcurl and Others
