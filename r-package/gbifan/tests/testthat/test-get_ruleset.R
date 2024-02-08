@@ -1,5 +1,6 @@
 with_mock_dir("fixtures/get_ruleset", {
 test_that("Get ruleset works as expected", {
+  withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
   p <- make_project(name="test project", description = "test project")
   rs <- make_ruleset(projectId=p$id,name="test project", description = "test project")
   rsd <- get_ruleset()
@@ -25,5 +26,6 @@ test_that("Get ruleset works as expected", {
   expect_s3_class(rsd3,"tbl_df")
   expect_true(all(is.na(rsd3$deleted)))
   expect_true(p$id %in% rsd3$projectId)
+})
 })
 })

@@ -1,5 +1,6 @@
 with_mock_dir("fixtures/get_project", {
   test_that("test get project works as expected", {
+    withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
     p <- make_project(name="test project", description = "test project")
     pd <- get_project()
     expect_s3_class(pd,"tbl_df")
@@ -20,6 +21,7 @@ with_mock_dir("fixtures/get_project", {
     expect_true(is.na(pd3$deleted))
     expect_true(nrow(pd3) == 1)
     
+  })
   })
 })
 

@@ -1,4 +1,5 @@
 test_that("test contest rule works as expected", {
+  withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
   with_mock_dir("fixtures/contest_rule", {
     r <- make_rule(taxonKey=1, geometry = "WKT", annotation = "NATIVE")
   })
@@ -10,4 +11,5 @@ test_that("test contest rule works as expected", {
   rc <- rm_contest_rule(id=r$id)
   expect_type(rc,"list")
   expect_length(rc$contestedBy,0)
+})
 })

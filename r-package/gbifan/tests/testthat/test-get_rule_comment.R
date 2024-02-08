@@ -1,5 +1,6 @@
 with_mock_dir("fixtures/get_rule_comment", {
   test_that("test make rule comment works as expected", {
+    withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
     r <- make_rule(taxonKey = 1, geometry = "WKT", annotation = "NATIVE") 
     
     c <- make_rule_comment(id=r$id,"test comment")
@@ -20,5 +21,6 @@ with_mock_dir("fixtures/get_rule_comment", {
     expect_s3_class(rc1,"tbl_df")
     expect_true(nrow(rc1) == 2)
     
+  })
   })
 })

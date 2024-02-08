@@ -1,5 +1,6 @@
 with_mock_dir("fixtures/make_rule", {
   test_that("test make rule works as expected", {
+    withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
     # projectId and rulesetId can be left NULL
     r <- make_rule(taxonKey = 1, geometry = "", annotation="NATIVE")
     expect_type(r,"list")
@@ -24,5 +25,6 @@ with_mock_dir("fixtures/make_rule", {
                  "please supply geometry")
     expect_error(make_rule(taxonKey=1,geometry="WKT",annotation=NULL),
                  "please supply annotation")
+  })
   })
 })

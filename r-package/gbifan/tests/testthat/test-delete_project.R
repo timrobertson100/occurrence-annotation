@@ -1,4 +1,5 @@
 test_that("Test that delete project works as expected", {
+  withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
     # cannot record tests since there is no way to restore projects at this time. 
     p <- make_project(name="test project",description="A test project.")
     rs <- make_ruleset(projectId=p$id,name="test ruleset",description = "A test ruleset.")
@@ -22,4 +23,5 @@ test_that("Test that delete project works as expected", {
     # rule 
     rd <- get_rule(id=r$id)
     expect_true(!is.null(rd$deleted))
+})
 })

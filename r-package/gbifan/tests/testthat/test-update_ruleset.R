@@ -1,4 +1,5 @@
 test_that("test update ruleset works as expected", {
+  withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
   with_mock_dir("fixtures/update_ruleset", {
     p <- make_project(name="test project",description = "test project")
     rs <- make_ruleset(projectId=p$id, name="test ruleset", description = "test ruleset")
@@ -21,4 +22,5 @@ test_that("test update ruleset works as expected", {
   expect_equal(up_back$members[[1]], "jwaller")
   expect_length(up_back$members, 1)
   
+})
 })

@@ -1,5 +1,6 @@
 with_mock_dir("fixtures/make_ruleset", {
   test_that("test make project works as expected", {
+    withr::with_envvar(list(GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {
     p <- make_project(name="test project",description="A test project.")
     r <- make_ruleset(projectId=p$id,name="test ruleset",description = "A test ruleset.")
     expect_type(r,"list")
@@ -15,5 +16,6 @@ with_mock_dir("fixtures/make_ruleset", {
     # projectId can be left NULL
     r1 <- make_ruleset(name="",description="")
     expect_type(r,"list")
+  })
   })
 })

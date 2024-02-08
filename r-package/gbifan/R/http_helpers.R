@@ -97,7 +97,8 @@ gbif_base <- function() {
   # overide with environmental vairable for local development 
   if(Sys.getenv("GBIFAN_URL") == "") {
     
-    url = "http://labs.gbif.org:7013/v1/occurrence/annotation/"
+    url = "https://api.gbif.org/v1/occurrence/experimental/annotation/"
+    # url = "http://labs.gbif.org:7013/v1/occurrence/annotation/"
     # "http://localhost:8080/v1/"
   } else {
     url <- Sys.getenv("GBIFAN_URL")
