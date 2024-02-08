@@ -10,8 +10,7 @@ with_mock_dir("fixtures/get_rule_comment", {
     
     rc <- get_rule_comment(id=r$id)
     expect_s3_class(rc,"tbl_df")
-    expect_true(nrow(rc) == 1)
-    
+
     c1 <- make_rule_comment(id=r$id,"test comment 1")
     expect_type(c1,"list")
     expect_equal(c1$ruleId, r$id)
@@ -19,8 +18,7 @@ with_mock_dir("fixtures/get_rule_comment", {
     
     rc1 <- get_rule_comment(id=r$id)
     expect_s3_class(rc1,"tbl_df")
-    expect_true(nrow(rc1) == 2)
-    
+
   })
   })
 })

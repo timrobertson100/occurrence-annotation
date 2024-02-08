@@ -14,7 +14,8 @@ jobs:
       GBIF_USER: ${{ secrets.GBIF_USER }}
       GBIF_PWD: ${{ secrets.GBIF_PWD }}
       GBIFAN_URL: http://localhost:8080/occurrence/experimental/annotation/
-
+      GBIFAN_GITHUB_ACTIONS: true
+      
     services:
       postgres:
         image: postgres:latest
