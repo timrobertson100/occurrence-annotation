@@ -1,5 +1,6 @@
 test_that("gbif_base works as expected", {
-  withr::with_envvar(list(GBIFAN_GITHUB_ACTIONS=""), {  
+  withr::with_envvar(list(GBIFAN_GITHUB_ACTIONS="", 
+                          GBIFAN_URL = "https://api.gbif-uat.org/v1/occurrence/experimental/annotation/"), {  
     uu <- gbif_base()
     expect_true(uu %in% 
                   c(
