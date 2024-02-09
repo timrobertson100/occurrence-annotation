@@ -9,7 +9,9 @@ test_that("test add ruleset member works as expected", {
       expect_equal(r$deleted,NULL)
       expect_length(r$members,1)
       })
-  
+    
+    update_ruleset(r$id,members="jwaller",keep_members = FALSE)
+    
     m <- add_ruleset_member(r$id,"JOE")
     expect_equal(length(get_ruleset(m$id)$members[[1]]),2)
     expect_type(m,"list")
