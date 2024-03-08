@@ -1,10 +1,6 @@
 name: Test r package
 
-on:
-  push:
-    branches:
-      - main
-      - actions
+on: push
 
 jobs:
   build:
@@ -51,13 +47,6 @@ jobs:
           cd backend-service
           nohup mvn spring-boot:run > spring_boot.log 2>&1 &
 
-      - name: Execute CURL command
-        run: |          
-          sleep 45
-          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
-          sleep 10
-          curl -X GET http://localhost:8080/occurrence/experimental/annotation/project
-
       - name: Install libcurl and Others
         run: |
           sudo apt-get update 
@@ -71,7 +60,12 @@ jobs:
       - name: Run R Hello World
         run: |
           Rscript -e 'cat("Hello, World!\n")'
-
+      
+      - name: Install system dependencies for 'sf'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+          
       - name: Install package dependencies (remotes)
         run: |
           list.files()

@@ -14,7 +14,9 @@ Imports:
   tidyr,
   dplyr,
   purrr,
-  httr2
+  httr2,
+  rgbif,
+  sf
 Suggests: 
     httptest2,
     testthat (>= 3.0.0),
