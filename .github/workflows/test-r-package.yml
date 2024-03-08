@@ -1,10 +1,6 @@
 name: Test r package
 
-on:
-  push:
-    branches:
-      - main
-      - actions
+on: push
 
 jobs:
   build:
