@@ -47,20 +47,6 @@ jobs:
           cd backend-service
           nohup mvn spring-boot:run > spring_boot.log 2>&1 &
 
-      - name: Execute CURL command
-        run: |
-          URL="http://localhost:8080/occurrence/experimental/annotation/project"
-          
-          while ! curl -s --head  --request GET $URL | grep "200 OK" > /dev/null; do
-              echo "Waiting for the service at $URL to become available..."
-              sleep 10
-          done
-          echo "The service at $URL is up and responsive!"
-          
-          curl -u "$GBIF_USER:$GBIF_PWD" -X POST http://localhost:8080/occurrence/experimental/annotation/project -H "Content-Type: application/json" -d '{"name":"test", "description":"test"}'
-          sleep 10
-          curl -X GET http://localhost:8080/occurrence/experimental/annotation/project
-
       - name: Install libcurl and Others
         run: |
           sudo apt-get update 
