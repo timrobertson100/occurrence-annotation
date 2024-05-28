@@ -318,6 +318,20 @@ class AnnotationTest {
         0,
         ruleController.get(r.getId()).getContestedBy().length);
   }
+  @Test
+    @WithMockUser(
+        username = "tim",
+        authorities = {"USER"})
+    void testJsonPred() { 
+        Rule r = ruleController.create(
+            Rule.builder()
+                .taxonKey(1)
+                .geometry("geom1")
+                .annotation(Rule.ANNOTATION_TYPE.NATIVE)
+                .jsonPred("jsonPred")
+                .build());
+        assertEquals("jsonPred should be jsonPred", "jsonPred", ruleController.get(r.getId()).getJsonPred());
+    }
 
   @Test
   @WithMockUser(

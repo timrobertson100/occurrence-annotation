@@ -13,8 +13,6 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.gbif.occurrence.annotation.mapper.ProjectMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.mapper.RulesetMapper;
@@ -31,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreatorOrAdmin;
 

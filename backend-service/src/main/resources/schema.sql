@@ -36,6 +36,7 @@ CREATE TABLE rule (
     dataset_key TEXT,
     geometry TEXT NOT NULL,
     annotation TEXT NOT NULL,
+    json_pred TEXT,
     ruleset_id INT REFERENCES ruleset ON DELETE CASCADE DEFERRABLE,
     project_id INT REFERENCES project ON DELETE CASCADE DEFERRABLE,
     supported_by TEXT[] NOT NULL DEFAULT '{}',

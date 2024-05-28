@@ -44,6 +44,7 @@ public class Rule {
   private String datasetKey;
   @NotNull private String geometry;
   private ANNOTATION_TYPE annotation;
+  private String jsonPred;
   private Integer rulesetId;
   private Integer projectId;
   private String[] supportedBy;
