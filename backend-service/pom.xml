@@ -44,7 +44,7 @@
     <spring-boot-admin.version>2.2.4</spring-boot-admin.version>
 
     <!-- documentation -->
-    <springdoc-openapi-ui.version>1.8.0</springdoc-openapi-ui.version>
+    <springdoc-openapi-ui.version>1.5.8</springdoc-openapi-ui.version>
     <swagger-annotations.version>2.2.0</swagger-annotations.version>
 
     <start-class>org.gbif.occurrence.annotation.Application</start-class>
