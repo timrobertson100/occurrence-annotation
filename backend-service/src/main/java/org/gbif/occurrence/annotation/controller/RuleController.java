@@ -13,8 +13,6 @@
  */
 package org.gbif.occurrence.annotation.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import org.gbif.occurrence.annotation.mapper.CommentMapper;
 import org.gbif.occurrence.annotation.mapper.RuleMapper;
 import org.gbif.occurrence.annotation.model.Comment;
@@ -38,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import static org.gbif.occurrence.annotation.controller.AuthAdvice.assertCreatorOrAdmin;
 
@@ -70,8 +69,8 @@ public class RuleController implements Controller<Rule> {
       @RequestParam(required = false) String comment,
       @RequestParam(required = false) Integer limit,
       @RequestParam(required = false) Integer offset) {
-    int limitInt = limit == null ? 100 : limit.intValue();
-    int offsetInt = offset == null ? 0 : offset.intValue();
+    int limitInt = limit == null ? 100 : limit;
+    int offsetInt = offset == null ? 0 : offset;
     return ruleMapper.list(
         taxonKey, datasetKey, rulesetId, projectId, comment, limitInt, offsetInt);
   }
